@@ -148,7 +148,7 @@ class Apps_Attend_Apply extends Apps_Attend_Abstract
                 $config  = $this->_this->bootstrap->getOption('httpsqs');
 
                 $modelSend = new Model_Tudu_Send_Common(array('httpsqs' => $config));
-                $modelSend->send(&$tudu);
+                $modelSend->send($tudu);
             }
 
         } catch (Model_Tudu_Exception $e) {
@@ -981,7 +981,7 @@ class Apps_Attend_Apply extends Apps_Attend_Abstract
             $config  = $this->_this->bootstrap->getOption('httpsqs');
 
             $modelSend = new Model_Tudu_Send_Common(array('httpsqs' => $config));
-            $modelSend->send(&$tudu);
+            $modelSend->send($tudu);
 
         } catch (Model_Tudu_Exception $e) {
             $message = $this->lang['review_failure'];
