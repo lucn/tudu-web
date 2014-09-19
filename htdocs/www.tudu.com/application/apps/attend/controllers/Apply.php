@@ -118,6 +118,8 @@ class Apps_Attend_Apply extends Apps_Attend_Abstract
         $this->_formatParams($tudu, $post);
 
         $tudu->operation = $action;
+        // 用于考勤流程判断
+        $tudu->period = $attrsApply['period'];
         $tudu->setExtension(new Model_App_Attend_Tudu_Apply($attrsApply));
 
         $flow = new Model_Tudu_Extension_Flow();

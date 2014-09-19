@@ -115,7 +115,8 @@ class Model_App_Attend_Tudu_Handler_Apply extends Model_Tudu_Extension_Handler_A
 
                 $stepIds = array();
                 foreach ($steps as $item) {
-                    $stepId = isset($item['stepid']) ? $item['stepid'] : Dao_Td_Tudu_Flow::getStepId(null);
+                    #$stepId = isset($item['stepid']) ? $item['stepid'] : Dao_Td_Tudu_Flow::getStepId(null);
+                    $stepId = isset($item['id']) ? $item['id'] : Dao_Td_Tudu_Flow::getStepId(null);
 
                     $stepIds[] = $stepId;
 
@@ -131,6 +132,17 @@ class Model_App_Attend_Tudu_Handler_Apply extends Model_Tudu_Extension_Handler_A
                     if (is_array($item['sections'])) {
                         foreach ($item['sections'] as $section) {
                             $flow->addStepSection($stepId, $section);
+                        }
+                    } elseif (is_array($item['branches'])) {
+                        $day = (int) ($tudu->period / 8);
+                        foreach ($item['branches'] as $branch) {
+                            $start = (int) $branch['start'];
+                            $end = (int) $branch['end'];
+                            if ($day >= $start && $day <= $end) {
+                                foreach ($branch['sections'] as $section) {
+                                    $flow->addStepSection($stepId, $section);
+                                }
+                            }
                         }
                     } else {
                         $flow->addStepSection($stepId, $item['sections'], $tudu);
