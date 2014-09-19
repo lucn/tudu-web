@@ -354,8 +354,8 @@ echo "========================================================================="
 echo "Install php...."
 sleep 5
 wget -N "$php_dl"
-tar zxvf php-5.3.20.tar.gz||exit 1
-cd $tmp_dir/php-5.3.20
+tar zxvf php-5.3.28.tar.gz||exit 1
+cd $tmp_dir/php-5.3.28
 if [ "$ver" = "x86_64" ]; then
 	LDFLAGS="-L/usr/lib64/mysql" ./configure --prefix=$install_dir/php --with-mysql --with-gd --with-jpeg-dir --with-freetype-dir --with-zlib --with-config-file-path=$install_dir/php/etc --with-png-dir --with-libxml-dir --enable-short-tags --enable-mbstring --disable-debug --with-mssql=$install_dir/freetds --with-mcrypt --with-mhash --enable-sockets --with-curl --with-curlwrappers --enable-mbregex --enable-force-cgi-redirect --enable-xml --disable-rpath --enable-discard-path --enable-safe-mode --enable-bcmath --enable-shmop --enable-sysvsem --enable-soap --enable-pdo --with-pdo-mysql --with-pdo-dblib=$install_dir/freetds --enable-fpm 
 else
