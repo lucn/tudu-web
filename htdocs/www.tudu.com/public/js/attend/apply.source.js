@@ -230,7 +230,7 @@ Attend.Apply = {
             showTimePanel: false,
             showButtonPanel: false,
             onSelect: function(dates) {
-                $("#dateEnd").datepick("option", {minDate: h});
+                $("#dateEnd").datepick("option", {minDate: dates});
                 o.checkVal();
                 o.updateTimeInput(false);
             }
@@ -244,7 +244,7 @@ Attend.Apply = {
             showTimePanel: false,
             showButtonPanel: false,
             onSelect: function(dates) {
-                $("#date").datepick("option", {maxDate: h});
+                $("#date").datepick("option", {maxDate: dates});
                 o.checkVal();
                 o.updateTimeInput(false);
             }
@@ -356,35 +356,51 @@ Attend.Apply = {
                 if (eh > 18) {
                     eh = 18;
                 }
+                var sDate = new Date();
+                var eDate = new Date();
+                var sT = date.split("-");
+                var eT = fd.split("-");
+                sDate.setFullYear(sT[0]);
+                sDate.setMonth(sT[1] - 1);
+                sDate.setDate(sT[2]);
+                eDate.setFullYear(eT[0]);
+                eDate.setMonth(eT[1] - 1);
+                eDate.setDate(eT[2]);
                 if (date == fd) {
-                    if (sh <= 12 && eh >= 13) {
-                        hour = parseInt(eh) - parseInt(sh) - 1;
-                    } else {
-                        hour = parseInt(eh) - parseInt(sh);
+                    if(sDate.getDay()!=0 && sDate.getDay()!=6){
+                        if (sh <= 12 && eh >= 13) {
+                            hour = parseInt(eh) - parseInt(sh) - 1;
+                        } else {
+                            hour = parseInt(eh) - parseInt(sh);
+                        }
                     }
+
                 } else {
-                    var sDate = new Date();
-                    var eDate = new Date();
-                    var sT = date.split("-");
-                    var eT = fd.split("-");
-                    sDate.setFullYear(sT[0]);
-                    sDate.setMonth(sT[1] - 1);
-                    sDate.setDate(sT[2]);
-                    eDate.setFullYear(eT[0]);
-                    eDate.setMonth(eT[1] - 1);
-                    eDate.setDate(eT[2]);
                     var dayNum = ( (( (eDate.getTime() - sDate.getTime()) / 1000) / 60) / 60) / 24;
-                    if (sh <= 12) {
-                        hour += (18 - sh - 1);
-                    } else {
-                        hour += (18 - sh );
+                    if(sDate.getDay()!=0 && sDate.getDay()!=6) {
+                        if (sh <= 12) {
+                            hour += (18 - sh - 1);
+                        } else {
+                            hour += (18 - sh );
+                        }
                     }
-                    if (eh >= 13) {
-                        hour += (eh - 9 - 1);
-                    } else {
-                        hour += (eh - 9 );
+                    if(eDate.getDay()!=0 && eDate.getDay()!=6) {
+                        if (eh >= 13) {
+                            hour += (eh - 9 - 1);
+                        } else {
+                            hour += (eh - 9 );
+                        }
                     }
                     hour += ((dayNum - 1) * 8);
+                    var loopI;
+                    var tempDate;
+                    for(loopI=1;loopI<=(dayNum-1);loopI++){
+                        tempDate=new Date(sDate.getTime()+(loopI*1000*60*60*24));
+                        if(tempDate.getDay()==0 || tempDate.getDay()==6) {
+                            hour=hour-8;
+                        }
+                    }
+
                 }
                 if (hour < 0) {
                     hour = 0;
@@ -778,7 +794,7 @@ Attend.Apply = {
 
 /**
  * 网盘附件文件选择
- * 
+ *
  * @param params
  * @return
  */
@@ -826,7 +842,7 @@ FileDialog.prototype = {
 
         Win.find('button[name="confirm"]').click(function(){
             var selected = netdiskPanel.getFileSelected();
-            
+
             for (var i = 0, c = selected.length; i < c; i++) {
                 if (!selected[i].fileid) {
                     continue ;
@@ -1205,7 +1221,7 @@ function checkContentImage(html, editor, callback) {
             dataType: 'json',
             data: {data: data, label: i},
             success: function(ret) {
-                
+
                 if (ret.success && ret.data) {
                     var img = imgs[ret.data.label];
                     var tag = img
