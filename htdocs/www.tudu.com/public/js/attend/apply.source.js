@@ -151,7 +151,7 @@ Attend.Apply = {
 
         $(':radio[name="categoryid"]').bind('click', function(){
             if (this.value == '^checkin') {
-                $('#row-timetype').hide();
+                //$('#row-timetype').hide();
                 $('#row-startdate').hide();
                 $('#row-enddate').hide();
                 $('#row-date').hide();
@@ -161,7 +161,7 @@ Attend.Apply = {
                 o.updateTimeInput(true);
             } else {
                 o.changeCategory(this.value);
-                $('#row-timetype').show();
+                //$('#row-timetype').show();
                 $('#row-checkin').hide();
                 $('#row-checkintime').hide();
                 var isallady = parseInt($(':radio[name="isallday"]:checked').val());
@@ -230,6 +230,21 @@ Attend.Apply = {
             showTimePanel: false,
             showButtonPanel: false,
             onSelect: function(dates) {
+                $("#dateEnd").datepick("option", {minDate: h});
+                o.checkVal();
+                o.updateTimeInput(false);
+            }
+        });
+        $('#dateEnd').datepick({
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            firstDay: 0,
+            showAnim: 'slideDown',
+            showSpeed: 'fast',
+            showTimePanel: false,
+            showButtonPanel: false,
+            onSelect: function(dates) {
+                $("#date").datepick("option", {maxDate: h});
                 o.checkVal();
                 o.updateTimeInput(false);
             }
@@ -316,14 +331,65 @@ Attend.Apply = {
                 if (!date) {
                     return ;
                 }
-
+                var fd = $("#dateEnd").val();
+                if (!fd) {
+                    return
+                }
                 var sh = $('#starthour').val(),
                     sm = $('#startmin').val(),
                     eh = $('#endhour').val(),
                     em = $('#endmin').val();
 
                 $('#starttime').val(date + ' ' + sh + ':' + sm);
-                $('#endtime').val(date + ' ' + eh + ':' + em);
+                $('#endtime').val(fd + ' ' + eh + ':' + em);
+
+                var hour = 0;
+                if (sh < 9) {
+                    sh = 9;
+                }
+                if (sh > 18) {
+                    sh = 18;
+                }
+                if (eh < 9) {
+                    eh = 9;
+                }
+                if (eh > 18) {
+                    eh = 18;
+                }
+                if (date == fd) {
+                    if (sh <= 12 && eh >= 13) {
+                        hour = parseInt(eh) - parseInt(sh) - 1;
+                    } else {
+                        hour = parseInt(eh) - parseInt(sh);
+                    }
+                } else {
+                    var sDate = new Date();
+                    var eDate = new Date();
+                    var sT = date.split("-");
+                    var eT = fd.split("-");
+                    sDate.setFullYear(sT[0]);
+                    sDate.setMonth(sT[1] - 1);
+                    sDate.setDate(sT[2]);
+                    eDate.setFullYear(eT[0]);
+                    eDate.setMonth(eT[1] - 1);
+                    eDate.setDate(eT[2]);
+                    var dayNum = ( (( (eDate.getTime() - sDate.getTime()) / 1000) / 60) / 60) / 24;
+                    if (sh <= 12) {
+                        hour += (18 - sh - 1);
+                    } else {
+                        hour += (18 - sh );
+                    }
+                    if (eh >= 13) {
+                        hour += (eh - 9 - 1);
+                    } else {
+                        hour += (eh - 9 );
+                    }
+                    hour += ((dayNum - 1) * 8);
+                }
+                if (hour < 0) {
+                    hour = 0;
+                }
+                $('#period').val(hour);
             }
         }
     },
@@ -336,6 +402,11 @@ Attend.Apply = {
 
         if (!date) {
             return;
+        }
+
+        var cd = $("#dateEnd").val();
+        if (!cd) {
+            return
         }
 
         var s = new Date(),
@@ -603,6 +674,10 @@ Attend.Apply = {
                     if (!$('#date').val()) {
                         $('#date').focus();
                         return TOP.showMessage('请输入开始时间');
+                    }
+                    if (!$("#dateEnd").val()) {
+                        $("#dateEnd").focus();
+                        return TOP.showMessage("请输入结束时间")
                     }
                 }
 
