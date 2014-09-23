@@ -132,13 +132,13 @@ if (top == this) {
                         </td>
                       </tr>
                     </table>
-                    <table id="row-timetype" cellspacing="0" cellpadding="0"{{if $apply.categoryid == '^checkin'}} style="display:none"{{/if}}>
+                    <table id="row-timetype" cellspacing="0" cellpadding="0"{{if $apply.categoryid == '^checkin'}} style="display:none"{{else}} style="display:none"{{/if}}>
                       <tr>
                         <td class="info_txt">时间类型</td>
                         <td class="info_forms" style="padding-right:10px;*">
                             {{strip}}
-                            <label for="t-day" style="margin-right: 15px;"><input type="radio" id="t-day" name="isallday" value="1"{{if !$tudu}} checked="checked"{{/if}}{{if $tudu && $apply.isallday}} checked="checked"{{/if}}{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />天</label>&nbsp;&nbsp;&nbsp;
-                            <label for="t-hour" style="margin-right: 15px;"><input type="radio" id="t-hour" name="isallday" value="0"{{if $tudu && !$apply.isallday}} checked="checked"{{/if}}{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />小时</label>
+                            <label for="t-day" style="margin-right: 15px;"><input type="radio" id="t-day" name="isallday" value="1"{{if $tudu && $apply.isallday}} checked="checked"{{/if}}{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />天</label>&nbsp;&nbsp;&nbsp;
+                            <label for="t-hour" style="margin-right: 15px;"><input type="radio" id="t-hour" name="isallday" value="0"{{if !$tudu}} checked="checked"{{/if}}{{if $tudu && !$apply.isallday}} checked="checked"{{/if}}{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />小时</label>
                             {{/strip}}
                         </td>
                       </tr>
@@ -154,20 +154,21 @@ if (top == this) {
                         </td>
                       </tr>
                     </table>
-                    <table id="row-date" cellspacing="0" cellpadding="0"{{if ($tudu && $apply.isallday) || $apply.categoryid == '^checkin' || !$tudu}} style="display:none"{{/if}}>
+                    <table id="row-date" cellspacing="0" cellpadding="0"{{if ($tudu && $apply.isallday) || $apply.categoryid == '^checkin' }} style="display:none"{{/if}}>
                       <tr>
-                        <td class="info_txt">开始时间</td>
+                        <td class="info_txt">起止时间</td>
                         <td class="info_forms">
                             {{strip}}
                             <input type="text" tabindex="6" class="input_text" name="date" id="date" readonly="readonly" value="{{if !$tudu.tuduid}}{{$smarty.now|date_format:'%Y-%m-%d'}}{{else}}{{$apply.starttime|date_format:'%Y-%m-%d'}}{{/if}}" style="width:148px;"{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />&nbsp;
                             <input type="text" class="input_text" id="starthour" name="starthour" value="{{$apply.starttime|date_format:'%H'}}"  style="width:40px;"{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />:<input type="text" class="input_text" id="startmin" name="startmin" value="{{$apply.starttime|date_format:'%M'}}"  style="width:40px;"{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />
                             &nbsp;至&nbsp;
+                            <input type="text" tabindex="6" class="input_text" name="date" id="dateEnd" readonly="readonly" value="{{if !$tudu.tuduid}}{{$smarty.now|date_format:'%Y-%m-%d'}}{{else}}{{$apply.endtime|date_format:'%Y-%m-%d'}}{{/if}}" style="width:148px;"{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />&nbsp;
                             <input type="text" class="input_text" id="endhour" name="endhour" value="{{$apply.endtime|date_format:'%H'}}"  style="width:40px;"{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />:<input type="text" class="input_text" id="endmin" name="endmin" value="{{$apply.endtime|date_format:'%M'}}"  style="width:40px;"{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />
                             {{/strip}}
                         </td>
                       </tr>
                     </table>
-                    <table id="row-startdate" cellspacing="0" cellpadding="0"{{if $tudu && !$apply.isallday}} style="display:none"{{/if}}>
+                    <table id="row-startdate" cellspacing="0" cellpadding="0"{{if ($tudu && !$apply.isallday)|| !$tudu }} style="display:none"{{/if}}>
                       <tr>
                         <td class="info_txt">开始时间</td>
                         <td class="info_forms">
@@ -175,7 +176,7 @@ if (top == this) {
                         </td>
                       </tr>
                     </table>
-                    <table id="row-enddate" cellspacing="0" cellpadding="0"{{if $tudu && !$apply.isallday}} style="display:none"{{/if}}>
+                    <table id="row-enddate" cellspacing="0" cellpadding="0"{{if ($tudu && !$apply.isallday)|| !$tudu }} style="display:none"{{/if}}>
                       <tr>
                         <td class="info_txt">结束时间</td>
                         <td class="info_forms">
@@ -186,7 +187,7 @@ if (top == this) {
                     <table id="row-total" cellspacing="0" cellpadding="0"{{if $apply.categoryid == '^checkin'}} style="display:none"{{/if}}>
                       <tr>
                         <td class="info_txt">共计</td>
-                        <td class="info_forms"><input type="text" id="period" name="period" value="{{$apply.period}}" style="width: 40px;ime-mode:disabled" class="input_text"{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />&nbsp;{{$LANG.hour}}&nbsp;<span id="time-sum"></span>&nbsp;<span id="type-sum"></span>
+                        <td class="info_forms"><input disabled type="text" id="period" name="period" value="{{$apply.period}}" style="width: 40px;ime-mode:disabled" class="input_text"{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />&nbsp;{{$LANG.hour}}&nbsp;<span id="time-sum"></span>&nbsp;<span id="type-sum"></span>
                         </td>
                       </tr>
                     </table>

@@ -51,19 +51,8 @@ div,p{ margin:0; padding:0;}
 <div id="wrap" class="wrap">
     <div class="tools-np" style="margin-top:10px"><input class="btn" name="" type="button" value="{{$LANG.print}}" style="margin-right:5px;" onclick="doPrint()"/></div>
     <div id="print-area">
-	<div>
-        <p style="padding-top:5px;font-weight:bold;">{{$LANG.subject}}{{$LANG.cln}}{{if $tudu.classid}}[{{$tudu.classname}}]{{/if}}{{$tudu.subject}}</p>
-        <p style="border-bottom:1px solid #000;font-weight:bold;">{{$LANG.attachment}}{{$LANG.cln}}{{$tudu.attachnum}}{{$LANG.attach_unit}}&nbsp;&nbsp;&nbsp;&nbsp;{{$LANG.reply}}{{$LANG.cln}}{{$tudu.replynum}}&nbsp;&nbsp;&nbsp;&nbsp;{{$LANG.belong_board}}{{$LANG.cln}}{{foreach item=item from=$boardnav name=foo}}{{if !$smarty.foreach.foo.first}}{{$item[0]}}{{if !$smarty.foreach.foo.last}}-{{/if}}{{/if}}{{/foreach}}</strong></p>
-    </div>
     <div class="border_b">
-    	<div style="margin-bottom:10px;">
-            <p>{{$LANG.title_sender}}{{$tudu.from.0}}&nbsp;&nbsp;&nbsp;&nbsp;{{$LANG.title_receiver}}{{$tudu.to.0}}&nbsp;&nbsp;&nbsp;&nbsp;{{$LANG.title_cc}}{{foreach item=cc from=$tudu.cc name=cc}}{{if !$smarty.foreach.cc.first}},{{/if}}{{$cc.0}}{{foreachelse}}-{{/foreach}}</p>
-            {{if $tudu.type == 'task'}}
-            <p>{{$LANG.title_starttime}}{{$tudu.starttime|date_time_format:$user.option.dateformat:'date'|default:'-'}}&nbsp;&nbsp;&nbsp;&nbsp;{{$LANG.title_endtime}}{{$tudu.endtime|date_time_format:$user.option.dateformat:'date'|default:'-'}}&nbsp;&nbsp;&nbsp;&nbsp;{{$LANG.title_progress}}{{$tudu.percent}}%</p>
-            {{/if}}
-    	</div>
         <div>
-        	<div><strong>{{$LANG.detail}}{{$LANG.cln}}</strong></div>
         	<div>{{$tudu.content|tudu_format_content}}</div>
         	{{if $vote}}
         	<table cellpadding="0" cellspacing="0" border="0">
