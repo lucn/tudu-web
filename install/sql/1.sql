@@ -23,7 +23,7 @@
   `is_ip_rule` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否开启IP过滤',
   `memo` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '备注，后台查看使用',
   PRIMARY KEY (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='组织信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='组织信息表';
 
 
 CREATE TABLE `md_org_info` (
@@ -42,7 +42,7 @@ CREATE TABLE `md_org_info` (
   PRIMARY KEY (`org_id`),
   KEY `idx_entire_name` (`entire_name`),
   CONSTRAINT `info_of_which_org` FOREIGN KEY (`org_id`) REFERENCES `md_organization` (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='组织信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织信息表';
 
 
 CREATE TABLE `md_access` (
@@ -52,7 +52,7 @@ CREATE TABLE `md_access` (
   `form_type` char(1) NOT NULL DEFAULT '' COMMENT '表单的类型',
   `default_value` varchar(250) DEFAULT NULL COMMENT '默认值',
   PRIMARY KEY (`access_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='权限定义表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限定义表';
 INSERT INTO md_access
    (`access_id`, `access_name`, `value_type`, `form_type`, `default_value`)
 VALUES
@@ -186,7 +186,7 @@ CREATE TABLE `md_org_host` (
   UNIQUE KEY `idx_host` (`host`),
   KEY `fk_host_of_which_org` (`org_id`),
   CONSTRAINT `fk_host_of_which_org` FOREIGN KEY (`org_id`) REFERENCES `md_organization` (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='组织绑定主机表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织绑定主机表';
 
 
 CREATE TABLE `md_org_iprule` (
@@ -197,7 +197,7 @@ CREATE TABLE `md_org_iprule` (
   `exception` text COMMENT '例外用户/群组 address + "\\\\n" + groupid',
   PRIMARY KEY (`org_id`,`type`),
   KEY `idx_is_valid` (`is_valid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='系统IP限制列表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统IP限制列表';
 
 
 CREATE TABLE `md_department` (
@@ -211,7 +211,7 @@ CREATE TABLE `md_department` (
   KEY `idx_dept_list_rank` (`org_id`,`parent_dept_id`,`order_num`),
   CONSTRAINT `fk_dept_of_which_org` FOREIGN KEY (`org_id`) REFERENCES `md_organization` (`org_id`),
   CONSTRAINT `fk_parent_dept` FOREIGN KEY (`org_id`, `parent_dept_id`) REFERENCES `md_department` (`org_id`, `dept_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='部门表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门表';
 
 
 CREATE TABLE `md_group` (
@@ -225,7 +225,7 @@ CREATE TABLE `md_group` (
   PRIMARY KEY (`org_id`,`group_id`),
   KEY `idx_order_num` (`order_num`),
   CONSTRAINT `fk_group_of_which_org` FOREIGN KEY (`org_id`) REFERENCES `md_organization` (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='用户群组表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户群组表';
 
 
 CREATE TABLE `md_role` (
@@ -236,7 +236,7 @@ CREATE TABLE `md_role` (
   `is_locked` tinyint(3) NOT NULL DEFAULT '0',
   `admin_level` int(11) NOT NULL DEFAULT '0' COMMENT '管理级别',
   PRIMARY KEY (`org_id`,`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT COMMENT='用户群组表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户群组表';
 
 
 CREATE TABLE `md_role_access` (
@@ -246,7 +246,7 @@ CREATE TABLE `md_role_access` (
   `value` varchar(250) DEFAULT NULL COMMENT '权限值',
   PRIMARY KEY (`org_id`,`role_id`,`access_id`),
   KEY `fk_group_has_which_access` (`access_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT COMMENT='群组权限表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='群组权限表';
 
 
 CREATE TABLE `md_user` (
@@ -272,7 +272,7 @@ CREATE TABLE `md_user` (
   KEY `idx_status` (`status`),
   CONSTRAINT `fk_user_of_which_dept` FOREIGN KEY (`org_id`, `dept_id`) REFERENCES `md_department` (`org_id`, `dept_id`),
   CONSTRAINT `fk_user_of_which_org` FOREIGN KEY (`org_id`) REFERENCES `md_organization` (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='用户表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 
 CREATE TABLE `md_user_access` (
@@ -284,7 +284,7 @@ CREATE TABLE `md_user_access` (
   KEY `fk_user_has_which_access` (`access_id`),
   CONSTRAINT `fk_access_of_which_user` FOREIGN KEY (`org_id`, `user_id`) REFERENCES `md_user` (`org_id`, `user_id`),
   CONSTRAINT `fk_user_has_which_access` FOREIGN KEY (`access_id`) REFERENCES `md_access` (`access_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='用户自定义权限表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自定义权限表';
 
 
 CREATE TABLE `md_user_info` (
@@ -311,7 +311,7 @@ CREATE TABLE `md_user_info` (
   `city` varchar(20) CHARACTER SET utf8 DEFAULT NULL COMMENT '城市',
   PRIMARY KEY (`org_id`,`user_id`),
   CONSTRAINT `fk_user_info` FOREIGN KEY (`org_id`, `user_id`) REFERENCES `md_user` (`org_id`, `user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='用户信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息表';
 
 
 CREATE TABLE `md_user_data` (
@@ -331,7 +331,7 @@ CREATE TABLE `md_user_data` (
   `enable_buddy` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否允许添加好友',
   `usual_local` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '常用地址',
   PRIMARY KEY (`org_id`,`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='用户数据';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户数据';
 
 
 CREATE TABLE `md_user_email` (
@@ -340,7 +340,7 @@ CREATE TABLE `md_user_email` (
   `email` varchar(120) NOT NULL,
   PRIMARY KEY (`org_id`,`user_id`),
   UNIQUE KEY `idx_email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='用户绑定邮箱';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户绑定邮箱';
 
 
 CREATE TABLE `md_user_group` (
@@ -351,7 +351,7 @@ CREATE TABLE `md_user_group` (
   KEY `fk_user_has_which_group` (`org_id`,`group_id`),
   CONSTRAINT `fk_group_of_which_user` FOREIGN KEY (`org_id`, `user_id`) REFERENCES `md_user` (`org_id`, `user_id`),
   CONSTRAINT `fk_user_has_which_group` FOREIGN KEY (`org_id`, `group_id`) REFERENCES `md_group` (`org_id`, `group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='用户对应群组表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户对应群组表';
 
 
 CREATE TABLE `md_user_role` (
@@ -360,7 +360,7 @@ CREATE TABLE `md_user_role` (
   `role_id` varchar(36) NOT NULL DEFAULT '' COMMENT '群组ID',
   PRIMARY KEY (`org_id`,`user_id`,`role_id`),
   KEY `fk_user_has_which_group` (`org_id`,`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT COMMENT='用户对应群组表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户对应群组表';
 
 
 CREATE TABLE `md_user_session` (
@@ -371,7 +371,7 @@ CREATE TABLE `md_user_session` (
   `login_time` int(11) unsigned NOT NULL COMMENT '登录时间',
   `expire_time` int(11) unsigned DEFAULT NULL COMMENT '过期时间',
   PRIMARY KEY (`session_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='用户持久登录验证信息记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户持久登录验证信息记录';
 
 
 CREATE TABLE `md_user_tips` (
@@ -380,7 +380,7 @@ CREATE TABLE `md_user_tips` (
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 0.未读 1.已读',
   PRIMARY KEY (`unique_id`,`tips_id`),
   KEY `idx_md_user_tips_unique_id` (`unique_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='用户提示信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户提示信息';
 
 
 CREATE TABLE `md_site_admin` (
@@ -390,7 +390,7 @@ CREATE TABLE `md_site_admin` (
   `admin_level` tinyint(3) NOT NULL DEFAULT '0' COMMENT '管理级别',
   PRIMARY KEY (`org_id`,`user_id`),
   CONSTRAINT `fk_who_is_admin` FOREIGN KEY (`org_id`, `user_id`) REFERENCES `md_user` (`org_id`, `user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='站点管理员表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点管理员表';
 
 
 CREATE TABLE `md_cast_disable_dept` (
@@ -399,7 +399,7 @@ CREATE TABLE `md_cast_disable_dept` (
   `dept_id` varchar(36) NOT NULL DEFAULT '' COMMENT '不可见部门ID',
   PRIMARY KEY (`org_id`,`owner_id`,`dept_id`),
   KEY `idx_owner_id` (`org_id`,`owner_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `md_cast_disable_user` (
@@ -409,7 +409,7 @@ CREATE TABLE `md_cast_disable_user` (
   PRIMARY KEY (`org_id`,`owner_id`,`user_id`),
   KEY `idx_owner_id` (`org_id`,`owner_id`),
   KEY `idx_org_id_user_id` (`org_id`,`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `md_email` (
@@ -430,7 +430,7 @@ CREATE TABLE `md_email` (
   KEY `idx_org_id_user_id` (`org_id`,`user_id`),
   KEY `idx_order_num` (`order_num`),
   CONSTRAINT `fk_email_of_which_user` FOREIGN KEY (`org_id`, `user_id`) REFERENCES `md_user` (`org_id`, `user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
@@ -453,7 +453,7 @@ CREATE TABLE `md_login_log` (
   KEY `idx_ip` (`ip`),
   KEY `idx_create_time` (`create_time`),
   KEY `idx_org_id_unique_id_create_time` (`org_id`,`unique_id`,`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT COMMENT='前台用户登录日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='前台用户登录日志';
 
 
 CREATE TABLE `md_op_log` (
@@ -472,7 +472,7 @@ CREATE TABLE `md_op_log` (
   KEY `idx_create_time` (`create_time`),
   KEY `idx_module` (`module`),
   KEY `idx_action` (`action`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `md_ip_data` (
@@ -483,7 +483,7 @@ CREATE TABLE `md_ip_data` (
   `isp` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT 'ISP名称',
   KEY `idx_start_ip` (`start_ip`),
   KEY `idx_end_ip` (`end_ip`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='IP数据地址库';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='IP数据地址库';
 
 CREATE TABLE `md_user_device` (
   `org_id` varchar(60) NOT NULL COMMENT '组织ID',
@@ -493,7 +493,7 @@ CREATE TABLE `md_user_device` (
   UNIQUE KEY `idx_unique_id_access_token` (`unique_id`,`device_type`),
   KEY `idx_org_id` (`org_id`),
   KEY `idx_device_token` (`device_token`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='用户设备绑定数据表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户设备绑定数据表';
 
 CREATE TABLE `md_auth_client` (
   `client_id` varchar(36) NOT NULL COMMENT '客户端标识传',
@@ -502,6 +502,6 @@ CREATE TABLE `md_auth_client` (
   `description` varchar(200) CHARACTER SET utf8 NOT NULL COMMENT '描述',
   `create_time` int(10) unsigned NOT NULL COMMENT '记录创建时间',
   PRIMARY KEY (`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `md_auth_client` VALUES ('91156429331037a8b0df54d6f5b95e27', '35a4227c92752407f03b40dce04e8db2', 'Tudu iOS客户端', 'Tudu 官方iOS APP', '1347862753');

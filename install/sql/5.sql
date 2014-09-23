@@ -8,7 +8,7 @@ CREATE TABLE `app_app` (
   `open_type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '开放形式 0.全部开放 1.仅对关联的用户开放',
   `url` varchar(255) DEFAULT NULL COMMENT '访问URL，仅针对外部应用',
   PRIMARY KEY (`app_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT COMMENT='应用数据表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='应用数据表';
 
 
 -- Table "app_info" DDL
@@ -25,7 +25,7 @@ CREATE TABLE `app_info` (
   `create_time` int(10) NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_update_time` int(10) NOT NULL DEFAULT '0' COMMENT '最后更新时间',
   PRIMARY KEY (`app_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT COMMENT='应用扩展信息表，记录与业务无关的数据，应用说明等';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='应用扩展信息表，记录与业务无关的数据，应用说明等';
 
 -- Table "app_info_attach" DDL
 
@@ -37,7 +37,7 @@ CREATE TABLE `app_info_attach` (
   KEY `idx_type` (`type`),
   KEY `idx_order_num` (`order_num`),
   KEY `idx_app_id` (`app_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT COMMENT='应用介绍附件数据表，应用详细页面可嵌入图片，音，视频等';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='应用介绍附件数据表，应用详细页面可嵌入图片，音，视频等';
 
 
 
@@ -52,7 +52,7 @@ CREATE TABLE `app_org` (
   PRIMARY KEY (`app_id`,`org_id`),
   KEY `idx_create_time` (`create_time`),
   KEY `idx_active_time` (`active_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='应用安装记录表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='应用安装记录表';
 
 
 
@@ -65,7 +65,7 @@ CREATE TABLE `app_user` (
   `role` varchar(20) NOT NULL DEFAULT '' COMMENT '应用角色（值由各应用定义）',
   PRIMARY KEY (`org_id`,`item_id`,`app_id`,`role`),
   KEY `idx_app_id` (`app_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT COMMENT='应用到组织关联数据表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='应用到组织关联数据表';
 
 
 
@@ -81,7 +81,7 @@ CREATE TABLE `attend_user` (
   PRIMARY KEY (`unique_id`),
   KEY `idx_attend_user_org_id` (`org_id`),
   KEY `idx_attend_user_dept_id` (`dept_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='考勤用户信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='考勤用户信息表';
 
 
 
@@ -96,7 +96,7 @@ CREATE TABLE `attend_total` (
   `update_time` int(10) unsigned DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`category_id`,`unique_id`,`date`),
   KEY `idx_org_id` (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='考勤分类';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='考勤分类';
 
 
 
@@ -124,7 +124,7 @@ CREATE TABLE `attend_apply` (
   KEY `idx_create_time` (`create_time`),
   KEY `idx_unique_id` (`unique_id`),
   KEY `idx_status` (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='考勤申请记录表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='考勤申请记录表';
 
 
 
@@ -136,7 +136,7 @@ CREATE TABLE `attend_apply_reviewer` (
   `review_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '审批状态 0.未审批 1.已通过 2. 已拒绝',
   PRIMARY KEY (`apply_id`,`unique_id`),
   KEY `idx_review_status` (`review_status`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='考勤审批审批人关联表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='考勤审批审批人关联表';
 
 
 
@@ -154,7 +154,7 @@ CREATE TABLE `attend_category` (
   PRIMARY KEY (`category_id`,`org_id`),
   KEY `idx_org_id` (`org_id`),
   KEY `idex_category_name` (`category_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='考勤分类';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='考勤分类';
 
 
 
@@ -173,7 +173,7 @@ CREATE TABLE `attend_checkin` (
   PRIMARY KEY (`checkin_id`),
   KEY `idx_unique_id_date` (`unique_id`,`date`),
   KEY `idx_org_id` (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='考勤登记(签到签退)';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='考勤登记(签到签退)';
 
 
 
@@ -192,7 +192,7 @@ CREATE TABLE `attend_date` (
   `update_time` int(10) unsigned DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`unique_id`,`date`),
   KEY `idx_org_id` (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='考勤统计（天）';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='考勤统计（天）';
 
 
 
@@ -208,7 +208,7 @@ CREATE TABLE `attend_date_apply` (
   KEY `idx_unique_id` (`unique_id`),
   KEY `idx_date_id` (`date`),
   KEY `idx_category_id` (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
@@ -224,7 +224,7 @@ CREATE TABLE `attend_month` (
   `is_abnormal_ip` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '当前月份是否存在IP异常',
   `update_time` int(10) unsigned NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`unique_id`,`date`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='考勤月统计表（只统计：迟到、早退、旷工的次数）';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='考勤月统计表（只统计：迟到、早退、旷工的次数）';
 
 
 
@@ -244,7 +244,7 @@ CREATE TABLE `attend_schedule` (
   KEY `idx_is_system` (`is_system`),
   KEY `idx_create_time` (`create_time`),
   KEY `idx_bgcolor` (`bgcolor`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='排班方案数据表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='排班方案数据表';
 
 -- Table "attend_schedule_adjust" DDL
 
@@ -260,7 +260,7 @@ CREATE TABLE `attend_schedule_adjust` (
   KEY `idx_org_id` (`org_id`),
   KEY `idx_start_time` (`start_time`),
   KEY `idx_end_time` (`end_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='排班工作日调整';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='排班工作日调整';
 
 
 
@@ -274,7 +274,7 @@ CREATE TABLE `attend_schedule_adjust_user` (
   PRIMARY KEY (`adjust_id`,`unique_id`),
   KEY `idx_org_id` (`org_id`),
   KEY `idx_create_time` (`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='工作日调整与用户关联记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='工作日调整与用户关联记录';
 
 
 
@@ -289,7 +289,7 @@ CREATE TABLE `attend_schedule_plan` (
   `create_time` int(10) unsigned NOT NULL COMMENT '记录创建时间',
   PRIMARY KEY (`plan_id`,`org_id`),
   KEY `idx_org_id` (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='排班计划数据表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='排班计划数据表';
 
 
 
@@ -302,7 +302,7 @@ CREATE TABLE `attend_schedule_plan_detail` (
   `value` int(10) unsigned NOT NULL COMMENT '记录排班类型对应的值，排班计划的第几天',
   KEY `idx_org_id` (`org_id`),
   KEY `idx_plan_id` (`plan_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='排班计划详细数据表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='排班计划详细数据表';
 
 
 -- Table "attend_schedule_plan_month" DDL
@@ -316,7 +316,7 @@ CREATE TABLE `attend_schedule_plan_month` (
   `update_time` int(10) unsigned NOT NULL COMMENT '记录更新时间',
   PRIMARY KEY (`unique_id`,`date`),
   KEY `idx_org_id` (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='月排班计划数据表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='月排班计划数据表';
 
 
 
@@ -333,7 +333,7 @@ CREATE TABLE `attend_schedule_plan_user` (
   KEY `idx_plan_id` (`plan_id`),
   KEY `idx_start_time` (`start_time`),
   KEY `idx_end_time` (`end_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='用户排班计划关联表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户排班计划关联表';
 
 
 
@@ -348,7 +348,7 @@ CREATE TABLE `attend_schedule_plan_week` (
   `effect_date` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '生效时间',
   PRIMARY KEY (`unique_id`),
   KEY `idx_org_id` (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='周排班计划数据表（一般只为生成月排班）';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='周排班计划数据表（一般只为生成月排班）';
 
 
 
@@ -370,7 +370,7 @@ CREATE TABLE `attend_schedule_rule` (
   PRIMARY KEY (`rule_id`,`schedule_id`,`org_id`),
   KEY `idx_org_id` (`org_id`),
   KEY `idx_schedule_id` (`schedule_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='排班方案规则表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='排班方案规则表';
 
 
 INSERT INTO `app_app` VALUES ('attend', '考勤应用', '1.0', 'inner', '0', '/app/attend');

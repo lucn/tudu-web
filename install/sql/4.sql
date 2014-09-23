@@ -1,4 +1,4 @@
-DELIMITER //
+ï»¿DELIMITER //
 
 # Procedure "sp_nd_add_file" DDL
 DROP PROCEDURE IF EXISTS `sp_nd_add_file`//
@@ -18,13 +18,13 @@ SET to_folder_id = in_folder_id;
 
 
 
-# ÒÑÊ¹ÓÃ¿Õ¼ä
+# å·²ä½¿ç”¨ç©ºé—´
 
 SELECT IFNULL(SUM(size), 0) INTO use_quota FROM nd_file WHERE org_id = in_org_id AND unique_id = in_unique_id;
 
 
 
-# ×î´ó¿ÉÓÃ¿Õ¼ä£¬¸ùÄ¿Â¼¿ÉÓÃ¿Õ¼ä
+# æœ€å¤§å¯ç”¨ç©ºé—´ï¼Œæ ¹ç›®å½•å¯ç”¨ç©ºé—´
 
 SELECT max_quota INTO root_max_quota FROM nd_folder WHERE org_id = in_org_id AND unique_id = in_unique_id AND folder_id = '^root';
 
@@ -87,7 +87,7 @@ CREATE PROCEDURE  `sp_td_add_group_member`(in in_group_id varchar(36), in in_uni
 BEGIN
 
 
-# Ôö¼Ó±êÇ©
+# å¢åŠ æ ‡ç­¾
 
 INSERT INTO td_contact_group_member(group_id, unique_id, contact_id) VALUES(in_group_id, in_unique_id, in_contact_id);
 
@@ -104,7 +104,7 @@ CREATE PROCEDURE  `sp_td_add_tudu_label`(in in_tudu_id varchar(36), in in_unique
     SQL SECURITY INVOKER
 BEGIN
 
-# Ôö¼ÓÍ¼¶È±êÇ©
+# å¢åŠ å›¾åº¦æ ‡ç­¾
 
 
 
@@ -112,25 +112,25 @@ DECLARE unread int;
 
 
 
-# »ñÈ¡Î´¶ÁµÄÊıÁ¿£¬²¢¿É¸ù¾İ´ËÊıÖµÅĞ¶ÁÓÃ»§¹ØÁª¼ÇÂ¼´æÔÚ
+# è·å–æœªè¯»çš„æ•°é‡ï¼Œå¹¶å¯æ ¹æ®æ­¤æ•°å€¼åˆ¤è¯»ç”¨æˆ·å…³è”è®°å½•å­˜åœ¨
 
 SELECT IF(is_read=0,1,0) INTO unread FROM td_tudu_user WHERE unique_id = in_unique_id AND tudu_id = in_tudu_id;
 
 
 
-#  ¹ØÁª¼ÇÂ¼´æÔÚÊ±²Å½øĞĞ¸üĞÂ
+#  å…³è”è®°å½•å­˜åœ¨æ—¶æ‰è¿›è¡Œæ›´æ–°
 
 IF NOT unread IS NULL THEN
 
 
 
-	# Ôö¼Ó±êÇ©
+	# å¢åŠ æ ‡ç­¾
 
 	INSERT INTO td_tudu_label(unique_id, label_id, tudu_id) VALUES(in_unique_id, in_label_id, in_tudu_id);
 
 
 
-	# ¼ÆÊı×ÔÔö
+	# è®¡æ•°è‡ªå¢
 
 	UPDATE td_label SET total_num = total_num + 1, unread_num = unread_num + unread, sync_time = UNIX_TIMESTAMP() 
 
@@ -138,7 +138,7 @@ IF NOT unread IS NULL THEN
 
 
 
-	# ¸üĞÂ±êÊ¶
+	# æ›´æ–°æ ‡è¯†
 
 	UPDATE td_tudu_user SET labels = CONCAT(labels, ',', in_label_id) WHERE unique_id = in_unique_id AND tudu_id = in_tudu_id;
 
@@ -187,7 +187,7 @@ BEGIN
 
 #
 
-# ¸üĞÂ¸¸¼¶Í¼¶È×é½ø¶È
+# æ›´æ–°çˆ¶çº§å›¾åº¦ç»„è¿›åº¦
 
 #
 
@@ -227,7 +227,7 @@ REPEAT
 
 
 
-## Í³¼Æ¸÷Ö´ĞĞÈË½ø¶È
+## ç»Ÿè®¡å„æ‰§è¡Œäººè¿›åº¦
 
 SET accepter_eof = 0;
 
@@ -277,7 +277,7 @@ CLOSE accepter_cur;
 
 
 
-## Í³¼ÆÖ´ĞĞÈË¸ú½ø½ø¶È
+## ç»Ÿè®¡æ‰§è¡Œäººè·Ÿè¿›è¿›åº¦
 
 IF EXISTS (SELECT tudu_id FROM td_tudu_user WHERE tudu_id = curr_tudu_id AND `role` = 'to') THEN
 
@@ -293,7 +293,7 @@ END IF;
 
 
 
-## Í³¼Æ×Ó¼¶×Ü
+## ç»Ÿè®¡å­çº§æ€»
 
 SELECT SUM(elapsed_time) INTO temp_elapsed_time FROM td_tudu AS t 
 
@@ -311,7 +311,7 @@ SET temp_elapsed_time = temp_elapsed_time + (
 
 
 
-## ¸üĞÂ¸¸¼¶Í¼¶È
+## æ›´æ–°çˆ¶çº§å›¾åº¦
 
 UPDATE td_tudu SET 
 
@@ -327,25 +327,25 @@ WHERE tudu_id = curr_tudu_id;
 
 
 
-## ¸üĞÂÎ´¶Á×´Ì¬
+## æ›´æ–°æœªè¯»çŠ¶æ€
 
 call sp_td_mark_all_unread(curr_tudu_id);
 
 
 
-## ÊÇ·ñ´æÔÚÉÏ¼¶Í¼¶È
+## æ˜¯å¦å­˜åœ¨ä¸Šçº§å›¾åº¦
 
 SELECT parent_tudu_id INTO temp_tudu_id FROM td_tudu_group WHERE tudu_id = curr_tudu_id AND parent_tudu_id <> curr_tudu_id;
 
 IF temp_tudu_id = curr_tudu_id OR temp_tudu_id IS NULL OR temp_tudu_id = '' THEN
 
-   ## Ìø³öÑ­»·
+   ## è·³å‡ºå¾ªç¯
 
    SET curr_tudu_id = NULL;
 
 ELSE
 
-    ## ±êÊ¶ÏÂÒ»ÂÖ
+    ## æ ‡è¯†ä¸‹ä¸€è½®
 
     SET curr_tudu_id = temp_tudu_id;
 
@@ -446,7 +446,7 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET eof = 1;
 
 
 
-# ÖØĞÂÍ³¼ÆÍ¼¶È¹ØÁªÈËÔ±µÄ±êÇ©
+# é‡æ–°ç»Ÿè®¡å›¾åº¦å…³è”äººå‘˜çš„æ ‡ç­¾
 
 OPEN user_cur;
 
@@ -494,7 +494,7 @@ CLOSE user_cur;
 
 
 
-# É¾³ı¸½¼ş
+# åˆ é™¤é™„ä»¶
 
 DELETE FROM td_attachment WHERE file_id IN (SELECT file_id FROM td_attach_post ap LEFT JOIN td_post p ON ap.post_id = p.post_id WHERE p.org_id = oid AND p.board_id = bid);
 
@@ -502,13 +502,13 @@ DELETE FROM td_attach_post WHERE post_id IN (SELECT post_id FROM td_post WHERE o
 
 
 
-# É¾³ı»Ø¸´
+# åˆ é™¤å›å¤
 
 DELETE FROM td_post WHERE org_id = oid AND board_id = bid;
 
 
 
-# É¾³ıÍ¶Æ±
+# åˆ é™¤æŠ•ç¥¨
 
 DELETE FROM td_vote_option WHERE tudu_id IN (SELECT tudu_id FROM td_tudu WHERE org_id = oid AND board_id = bid);
 
@@ -518,7 +518,7 @@ DELETE FROM td_vote WHERE tudu_id IN (SELECT tudu_id FROM td_tudu WHERE org_id =
 
 
 
-# É¾³ı°æ¿éËùÓĞÍ¼¶È
+# åˆ é™¤ç‰ˆå—æ‰€æœ‰å›¾åº¦
 
 DELETE FROM td_tudu_label WHERE tudu_id IN (SELECT tudu_id FROM td_tudu WHERE org_id = oid AND board_id = bid);
 
@@ -528,7 +528,7 @@ DELETE FROM td_tudu WHERE org_id = oid AND board_id = bid;
 
 
 
-# Í³¼Æ°å¿éĞÅÏ¢
+# ç»Ÿè®¡æ¿å—ä¿¡æ¯
 
 UPDATE td_board SET tudu_num = 0, post_num = 0, today_tudu_num = 0, last_post = NULL WHERE org_id = oid AND board_id = bid;
 
@@ -546,7 +546,7 @@ BEGIN
 
 
 
-# É¾³ıÈº×é³ÉÔ±
+# åˆ é™¤ç¾¤ç»„æˆå‘˜
 
 UPDATE td_contact AS c 
 
@@ -560,7 +560,7 @@ WHERE c.unique_id = in_unique_id AND gm.group_id = in_group_id;
 
 DELETE FROM td_contact_group_member WHERE group_id = in_group_id AND unique_id = in_unique_id;
 
-# É¾³ıÈº×é
+# åˆ é™¤ç¾¤ç»„
 
 DELETE FROM td_contact_group WHERE group_id = in_group_id AND unique_id = in_unique_id;
 
@@ -578,13 +578,13 @@ BEGIN
 
 
 
-# È¡ÏûÍ¼¶È¹ØÁª
+# å–æ¶ˆå›¾åº¦å…³è”
 
 #UPDATE td_tudu SET cycle_id = null WHERE cycle_id = in_cycle_id;
 
 
 
-# É¾³ıÖÜÆÚ
+# åˆ é™¤å‘¨æœŸ
 
 #DELETE FROM td_tudu_cycle WHERE cycle_id = in_cycle_id;
 
@@ -604,13 +604,13 @@ BEGIN
 
 
 
-# Ôö¼Ó±êÇ©
+# å¢åŠ æ ‡ç­¾
 
 DELETE FROM td_contact_group_member WHERE group_id = in_group_id AND unique_id = in_unique_id AND contact_id = in_contact_id;
 
 
 
-# ¸üĞÂ±êÊ¶
+# æ›´æ–°æ ‡è¯†
 
 UPDATE td_contact SET groups = TRIM(TRAILING ',' FROM REPLACE(CONCAT(groups, ','), CONCAT(',', in_group_id, ','), ',')) 
 
@@ -630,11 +630,11 @@ BEGIN
 
 #
 
-# É¾³ı»Ø¸´
+# åˆ é™¤å›å¤
 
 #
 
-# is_firstµÄ¼ÇÂ¼²»Í¨¹ı´Ë·½Ê½É¾³ı
+# is_firstçš„è®°å½•ä¸é€šè¿‡æ­¤æ–¹å¼åˆ é™¤
 
 
 
@@ -644,7 +644,7 @@ DECLARE `in_is_send` tinyint(1);
 
 
 
-# »ñÈ¡Ïà¹ØÊı¾İ£¬ÓÉÓÚĞèÒªÖªµÀÊÇ·ñ¸üĞÂÈÕÖ¾Àà»Ø¸´£¬±ØĞëselectÒ»´Î£¬·ñÔò¿ÉÒÔ²»ĞèÒª
+# è·å–ç›¸å…³æ•°æ®ï¼Œç”±äºéœ€è¦çŸ¥é“æ˜¯å¦æ›´æ–°æ—¥å¿—ç±»å›å¤ï¼Œå¿…é¡»selectä¸€æ¬¡ï¼Œå¦åˆ™å¯ä»¥ä¸éœ€è¦
 
 SELECT IF(`is_log` = 1, 1, 0), IF(`is_send` = 1, 1, 0) INTO `in_log_num`, `in_is_send` FROM td_post
 
@@ -652,31 +652,31 @@ WHERE tudu_id = in_tudu_id AND post_id = in_post_id AND is_first = 0;
 
 
 
-# Êı¾İ´æÔÚÊ±²Å½øĞĞ¸üĞÂ
+# æ•°æ®å­˜åœ¨æ—¶æ‰è¿›è¡Œæ›´æ–°
 
 IF NOT in_log_num IS NULL THEN
 
 
 
-# É¾³ı¸½¼ş
+# åˆ é™¤é™„ä»¶
 
 DELETE FROM td_attach_post WHERE tudu_id = in_tudu_id AND post_id = in_post_id;
 
 
 
-# É¾³ı»Ø¸´
+# åˆ é™¤å›å¤
 
 DELETE FROM td_post WHERE tudu_id = in_tudu_id AND post_id = in_post_id;
 
 
 
-# É¾³ı³É¹¦Ê±²Å¸üĞÂÍ³¼Æ
+# åˆ é™¤æˆåŠŸæ—¶æ‰æ›´æ–°ç»Ÿè®¡
 
 IF ROW_COUNT() > 0 AND `in_is_send` = 1 THEN
 
 
 
-   # ¸üĞÂ°æ¿é»Ø¸´ÊıÍ³¼Æ
+   # æ›´æ–°ç‰ˆå—å›å¤æ•°ç»Ÿè®¡
 
    UPDATE td_board, td_tudu
 
@@ -692,7 +692,7 @@ IF ROW_COUNT() > 0 AND `in_is_send` = 1 THEN
 
    
 
-   # ¸üĞÂÈÎÎñÒÑºÄÊ±Í³¼Æ
+   # æ›´æ–°ä»»åŠ¡å·²è€—æ—¶ç»Ÿè®¡
 
    IF `in_log_num` = 1 THEN
 
@@ -722,33 +722,33 @@ BEGIN
 
 #
 
-# É¾³ıÈÎÎñ
+# åˆ é™¤ä»»åŠ¡
 
 #
 
-# 1 É¾³ı¹ØÁªÓÃ»§
+# 1 åˆ é™¤å…³è”ç”¨æˆ·
 
-#   1.1 ÅúÁ¿¸üĞÂ±êÇ©Í³¼Æ
+#   1.1 æ‰¹é‡æ›´æ–°æ ‡ç­¾ç»Ÿè®¡
 
-#   1.2 ÅúÁ¿É¾³ı±êÇ©
+#   1.2 æ‰¹é‡åˆ é™¤æ ‡ç­¾
 
-#   1.3 É¾³ıÈÎÎñÓÃ»§
+#   1.3 åˆ é™¤ä»»åŠ¡ç”¨æˆ·
 
-# 2 É¾³ı»Ø¸´
+# 2 åˆ é™¤å›å¤
 
-# 3 É¾³ıÖÜÆÚ
+# 3 åˆ é™¤å‘¨æœŸ
 
-# 4 É¾³ıÈÎÎñ
+# 4 åˆ é™¤ä»»åŠ¡
 
-# 5 ¸üĞÂ°æ¿éÍ³¼Æ
+# 5 æ›´æ–°ç‰ˆå—ç»Ÿè®¡
 
 #
 
 
 
-# ±ØĞëÏÈÉ¾³ıtd_tudu_label, td_tudu_user, td_tudu_cycleÏà¹ØÊı¾İ£¨ÊÜÔ¼Êø£©¡£
+# å¿…é¡»å…ˆåˆ é™¤td_tudu_label, td_tudu_user, td_tudu_cycleç›¸å…³æ•°æ®ï¼ˆå—çº¦æŸï¼‰ã€‚
 
-# ³É¹¦·µ»Ø 1£¬Ê§°Ü·µ»Ø 0
+# æˆåŠŸè¿”å› 1ï¼Œå¤±è´¥è¿”å› 0
 
 
 
@@ -770,7 +770,7 @@ DECLARE in_cycle_num int;
 
 
 
-# ³öÏÖÒì³£Ê±rollback
+# å‡ºç°å¼‚å¸¸æ—¶rollback
 
 #DECLARE EXIT HANDLER FOR SQLEXCEPTION,SQLWARNING BEGIN
 
@@ -790,13 +790,13 @@ FROM td_tudu WHERE tudu_id = in_tudu_id;
 
 
 
-# ÆôÓÃÊÂÎñ
+# å¯ç”¨äº‹åŠ¡
 
 START TRANSACTION;
 
 ##########################
 
-### É¾³ıÈÎÎñ¹ØÁªÓÃ»§
+### åˆ é™¤ä»»åŠ¡å…³è”ç”¨æˆ·
 
 
 
@@ -830,7 +830,7 @@ DECLARE no_more_user tinyint default 0;
 
 
 
-# ¶¨ÒåÓÎ±ê
+# å®šä¹‰æ¸¸æ ‡
 
 
 
@@ -846,7 +846,7 @@ SELECT unique_id, IF(is_read=0,1,0) FROM td_tudu_user WHERE tudu_id = in_tudu_id
 
 
 
-# ¶¨Òå¼ÇÂ¼»ñÈ¡²»µ½Ê±²Ù×÷
+# å®šä¹‰è®°å½•è·å–ä¸åˆ°æ—¶æ“ä½œ
 
 
 
@@ -854,13 +854,13 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET no_more_user = 1;
 
 
 
-# ´ò¿ªÓÎ±ê
+# æ‰“å¼€æ¸¸æ ‡
 
 OPEN cur_users;
 
 
 
-# Ñ­»·ËùÓĞµÄĞĞ
+# å¾ªç¯æ‰€æœ‰çš„è¡Œ
 
 REPEAT FETCH cur_users INTO in_unique_id, in_unread_num;
 
@@ -870,7 +870,7 @@ IF NOT in_unique_id IS NULL THEN
 
 
 
-   # ÅúÁ¿¸üĞÂ±êÇ©Í³¼Æ
+   # æ‰¹é‡æ›´æ–°æ ‡ç­¾ç»Ÿè®¡
 
    UPDATE td_label, td_tudu_label
 
@@ -890,13 +890,13 @@ IF NOT in_unique_id IS NULL THEN
 
 
 
-   # ÅúÁ¿É¾³ıÈÎÎñ±êÇ©
+   # æ‰¹é‡åˆ é™¤ä»»åŠ¡æ ‡ç­¾
 
    DELETE FROM td_tudu_label WHERE unique_id = in_unique_id AND tudu_id = in_tudu_id;
 
 
 
-   # É¾³ıÈÎÎñÓÃ»§
+   # åˆ é™¤ä»»åŠ¡ç”¨æˆ·
 
    DELETE FROM td_tudu_user WHERE unique_id = in_unique_id AND tudu_id = in_tudu_id;
 
@@ -906,13 +906,13 @@ END IF;
 
 
 
-# Ñ­»·½áÊø
+# å¾ªç¯ç»“æŸ
 
 UNTIL no_more_user END REPEAT;
 
 
 
-# ¹Ø±ÕÓÎ±ê
+# å…³é—­æ¸¸æ ‡
 
 CLOSE cur_users;
 
@@ -926,25 +926,25 @@ END;
 
 
 
-### É¾³ıÈÎÎñ¹ØÁªÓÃ»§½áÊø
+### åˆ é™¤ä»»åŠ¡å…³è”ç”¨æˆ·ç»“æŸ
 
 
 
 ##########################
 
-# É¾³ı¸½¼ş
+# åˆ é™¤é™„ä»¶
 
 DELETE FROM td_attach_post WHERE tudu_id = in_tudu_id;
 
 
 
-# É¾³ı»Ø¸´
+# åˆ é™¤å›å¤
 
 DELETE FROM td_post WHERE tudu_id = in_tudu_id;
 
 
 
-# É¾³ıÍ¶Æ±
+# åˆ é™¤æŠ•ç¥¨
 
 DELETE FROM td_voter WHERE tudu_id = in_tudu_id;
 
@@ -954,29 +954,29 @@ DELETE FROM td_vote WHERE tudu_id = in_tudu_id;
 
 
 
-#É¾³ı»áÒé
+#åˆ é™¤ä¼šè®®
 
 DELETE FROM td_tudu_meeting WHERE tudu_id = in_tudu_id;
 
 
 
-#Ç°ÖÃÈÎÎñ
+#å‰ç½®ä»»åŠ¡
 
 UPDATE td_tudu SET prev_tudu_id = null WHERE prev_tudu_id = in_tudu_id;
 
 
 
-# ²½Öè
+# æ­¥éª¤
 
 DELETE FROM td_tudu_flow WHERE tudu_id = in_tudu_id;
 
-# É¾³ıÍ¼¶È
+# åˆ é™¤å›¾åº¦
 
 DELETE FROM td_tudu WHERE tudu_id = in_tudu_id;
 
 
 
-# É¾³ıÖÜÆÚ
+# åˆ é™¤å‘¨æœŸ
 
 IF NOT in_cycle_id IS NULL AND NOT EXISTS (SELECT cycle_id FROM td_tudu WHERE cycle_id = in_cycle_id AND tudu_id <> in_tudu_id) THEN
 
@@ -992,7 +992,7 @@ END IF;
 
 
 
-# ·Ç²İ¸åµÄ¼ÇÂ¼£¬²ÅĞèÒª¸üĞÂ°æ¿éÍ³¼Æ
+# éè‰ç¨¿çš„è®°å½•ï¼Œæ‰éœ€è¦æ›´æ–°ç‰ˆå—ç»Ÿè®¡
 
 IF in_is_draft = 0 THEN
 
@@ -1008,7 +1008,7 @@ END IF;
 
 
 
-# ÁĞĞÂ°æ¿é»Ø¸´Êı
+# åˆ—æ–°ç‰ˆå—å›å¤æ•°
 
 IF in_post_num > 0 THEN
 
@@ -1038,7 +1038,7 @@ CREATE PROCEDURE `sp_td_delete_tudu_label`(in in_tudu_id varchar(36), in in_uniq
     SQL SECURITY INVOKER
 BEGIN
 
-# É¾³ıÍ¼¶È±êÇ©
+# åˆ é™¤å›¾åº¦æ ‡ç­¾
 
 
 
@@ -1046,31 +1046,31 @@ DECLARE unread int;
 
 
 
-# »ñÈ¡Î´¶ÁµÄÊıÁ¿£¬²¢¿É¸ù¾İ´ËÊıÖµÅĞ¶ÁÓÃ»§¹ØÁª¼ÇÂ¼´æÔÚ
+# è·å–æœªè¯»çš„æ•°é‡ï¼Œå¹¶å¯æ ¹æ®æ­¤æ•°å€¼åˆ¤è¯»ç”¨æˆ·å…³è”è®°å½•å­˜åœ¨
 
 SET unread = (SELECT IF(is_read=0,1,0) FROM td_tudu_user WHERE unique_id = in_unique_id AND tudu_id = in_tudu_id);
 
 
 
-#  ¹ØÁª¼ÇÂ¼´æÔÚÊ±²Å½øĞĞ¸üĞÂ
+#  å…³è”è®°å½•å­˜åœ¨æ—¶æ‰è¿›è¡Œæ›´æ–°
 
 IF NOT unread IS NULL THEN
 
 
 
-	# É¾³ı±êÇ©
+	# åˆ é™¤æ ‡ç­¾
 
 	DELETE FROM td_tudu_label WHERE unique_id = in_unique_id AND label_id = in_label_id AND tudu_id= in_tudu_id;
 
 
 
-	# É¾³ı³É¹¦Ê±¸üĞÂÍ³¼ÆÊı
+	# åˆ é™¤æˆåŠŸæ—¶æ›´æ–°ç»Ÿè®¡æ•°
 
 	IF ROW_COUNT() > 0 THEN
 
 
 
-		# ¼ÆÊı×Ô¼õ
+		# è®¡æ•°è‡ªå‡
 
 		UPDATE td_label SET total_num = total_num - 1, unread_num = unread_num - unread, sync_time = UNIX_TIMESTAMP() WHERE unique_id = in_unique_id AND label_id = in_label_id;
 
@@ -1078,7 +1078,7 @@ IF NOT unread IS NULL THEN
 
 
 
-	# ¸üĞÂÍ¼¶È±êÊ¶
+	# æ›´æ–°å›¾åº¦æ ‡è¯†
 
 	UPDATE td_tudu_user SET labels = TRIM(TRAILING ',' FROM REPLACE(CONCAT(labels, ','), CONCAT(',', in_label_id, ','), ','))
 
@@ -1102,15 +1102,15 @@ BEGIN
 
 #
 
-# É¾³ıÈÎÎñ¹ØÁªÓÃ»§
+# åˆ é™¤ä»»åŠ¡å…³è”ç”¨æˆ·
 
 #
 
-# 1.ÅúÁ¿¸üĞÂ±êÇ©Í³¼Æ
+# 1.æ‰¹é‡æ›´æ–°æ ‡ç­¾ç»Ÿè®¡
 
-# 2.ÅúÁ¿É¾³ı±êÇ©
+# 2.æ‰¹é‡åˆ é™¤æ ‡ç­¾
 
-# 3.É¾³ıÈÎÎñÓÃ»§
+# 3.åˆ é™¤ä»»åŠ¡ç”¨æˆ·
 
 #
 
@@ -1120,19 +1120,19 @@ DECLARE unread int;
 
 
 
-# »ñÈ¡Î´¶ÁµÄÊıÁ¿£¬²¢¿É¸ù¾İ´ËÊıÖµÅĞ¶ÁÓÃ»§¹ØÁª¼ÇÂ¼´æÔÚ
+# è·å–æœªè¯»çš„æ•°é‡ï¼Œå¹¶å¯æ ¹æ®æ­¤æ•°å€¼åˆ¤è¯»ç”¨æˆ·å…³è”è®°å½•å­˜åœ¨
 
 SET unread = (SELECT IF(is_read=0,1,0) FROM td_tudu_user WHERE unique_id = in_unique_id AND tudu_id = in_tudu_id);
 
 
 
-#  ¹ØÁª¼ÇÂ¼´æÔÚÊ±²Å½øĞĞ¸üĞÂ
+#  å…³è”è®°å½•å­˜åœ¨æ—¶æ‰è¿›è¡Œæ›´æ–°
 
 IF NOT unread IS NULL THEN
 
 
 
-   # ÅúÁ¿¸üĞÂ±êÇ©Í³¼Æ
+   # æ‰¹é‡æ›´æ–°æ ‡ç­¾ç»Ÿè®¡
 
    UPDATE td_label, td_tudu_label
 
@@ -1148,13 +1148,13 @@ IF NOT unread IS NULL THEN
 
 
 
-   # ÅúÁ¿É¾³ıÈÎÎñ±êÇ©
+   # æ‰¹é‡åˆ é™¤ä»»åŠ¡æ ‡ç­¾
 
    DELETE FROM td_tudu_label WHERE unique_id = in_unique_id AND tudu_id = in_tudu_id;
 
    
 
-   # É¾³ıÈÎÎñÓÃ»§
+   # åˆ é™¤ä»»åŠ¡ç”¨æˆ·
 
    DELETE FROM td_tudu_user WHERE unique_id = in_unique_id AND tudu_id = in_tudu_id;
 
@@ -1176,15 +1176,15 @@ BEGIN
 
 #
 
-# É¾³ıÓÃ»§µÄÍ¼¶ÈÊı¾İ
+# åˆ é™¤ç”¨æˆ·çš„å›¾åº¦æ•°æ®
 
 #
 
-# 1.ÅúÁ¿É¾³ı±êÇ©
+# 1.æ‰¹é‡åˆ é™¤æ ‡ç­¾
 
-# 2.É¾³ıÍ¼¶ÈÓÃ»§
+# 2.åˆ é™¤å›¾åº¦ç”¨æˆ·
 
-# 3.É¾³ıÓÃ»§±êÇ©
+# 3.åˆ é™¤ç”¨æˆ·æ ‡ç­¾
 
 #
 
@@ -1192,19 +1192,19 @@ BEGIN
 
 
 
-# ÅúÁ¿É¾³ıÍ¼¶È±êÇ©
+# æ‰¹é‡åˆ é™¤å›¾åº¦æ ‡ç­¾
 
 DELETE FROM td_tudu_label WHERE unique_id = in_unique_id;
 
 
 
-# É¾³ıÍ¼¶ÈÓÃ»§
+# åˆ é™¤å›¾åº¦ç”¨æˆ·
 
 DELETE FROM td_tudu_user WHERE unique_id = in_unique_id;
 
 
 
-# É¾³ıÓÃ»§±êÇ©
+# åˆ é™¤ç”¨æˆ·æ ‡ç­¾
 
 DELETE FROM td_label WHERE unique_id = in_unique_id;
 
@@ -1228,7 +1228,7 @@ DECLARE no_more_user tinyint default 0;
 
 
 
-# ¶¨ÒåÓÎ±ê
+# å®šä¹‰æ¸¸æ ‡
 
 DECLARE cur_users CURSOR FOR
 
@@ -1236,37 +1236,37 @@ SELECT unique_id FROM td_tudu_user WHERE tudu_id = in_tudu_id AND is_read = 1 FO
 
 
 
-# ¶¨Òå¼ÇÂ¼»ñÈ¡²»µ½Ê±²Ù×÷
+# å®šä¹‰è®°å½•è·å–ä¸åˆ°æ—¶æ“ä½œ
 
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET no_more_user = 1;
 
 
 
-# ´ò¿ªÓÎ±ê
+# æ‰“å¼€æ¸¸æ ‡
 
 OPEN cur_users;
 
 
 
-# Ñ­»·ËùÓĞµÄĞĞ
+# å¾ªç¯æ‰€æœ‰çš„è¡Œ
 
 REPEAT FETCH cur_users INTO in_unique_id;
 
 
 
-# ÉèÖÃÎªÎ´¶Á×´Ì¬
+# è®¾ç½®ä¸ºæœªè¯»çŠ¶æ€
 
 UPDATE td_tudu_user SET is_read = 0 WHERE unique_id = in_unique_id AND tudu_id = in_tudu_id;
 
 
 
-# ÓĞ¸üĞÂÊı¾İÊ±²Ù×÷£¬±ÜÃâÖØ¸´ÉèÖÃÒÑ¶Á
+# æœ‰æ›´æ–°æ•°æ®æ—¶æ“ä½œï¼Œé¿å…é‡å¤è®¾ç½®å·²è¯»
 
 IF ROW_COUNT() > 0 THEN
 
 
 
-   # ÅúÁ¿¸üĞÂ±êÇ©Í³¼Æ£¬ÉèÖÃÎ´¶ÁÊı + 1
+   # æ‰¹é‡æ›´æ–°æ ‡ç­¾ç»Ÿè®¡ï¼Œè®¾ç½®æœªè¯»æ•° + 1
 
    UPDATE td_label, td_tudu_label
 
@@ -1288,13 +1288,13 @@ END IF;
 
 
 
-# Ñ­»·½áÊø
+# å¾ªç¯ç»“æŸ
 
 UNTIL no_more_user END REPEAT;
 
 
 
-# ¹Ø±ÕÓÎ±ê
+# å…³é—­æ¸¸æ ‡
 
 CLOSE cur_users;
 
@@ -1312,19 +1312,19 @@ BEGIN
 
 
 
-# ÉèÖÃÎªÎ´¶Á×´Ì¬
+# è®¾ç½®ä¸ºæœªè¯»çŠ¶æ€
 
 UPDATE td_tudu_user SET is_read = 1 WHERE unique_id = in_unique_id AND tudu_id = in_tudu_id;
 
 
 
-# ÓĞ¸üĞÂÊı¾İÊ±²Ù×÷£¬±ÜÃâÖØ¸´ÉèÖÃÒÑ¶Á
+# æœ‰æ›´æ–°æ•°æ®æ—¶æ“ä½œï¼Œé¿å…é‡å¤è®¾ç½®å·²è¯»
 
 IF ROW_COUNT() > 0 THEN
 
 
 
-	# ¹ØÁª±êÇ©Î´¶ÁÊı - 1
+	# å…³è”æ ‡ç­¾æœªè¯»æ•° - 1
 
 	UPDATE td_label, td_tudu_label SET td_label.unread_num = td_label.unread_num - 1,
 
@@ -1356,19 +1356,19 @@ BEGIN
 
 
 
-# ÉèÖÃÎªÎ´¶Á×´Ì¬
+# è®¾ç½®ä¸ºæœªè¯»çŠ¶æ€
 
 UPDATE td_tudu_user SET is_read = 0 WHERE unique_id = in_unique_id AND tudu_id = in_tudu_id;
 
 
 
-# ÓĞ¸üĞÂÊı¾İÊ±²Ù×÷£¬±ÜÃâÖØ¸´ÉèÖÃÒÑ¶Á
+# æœ‰æ›´æ–°æ•°æ®æ—¶æ“ä½œï¼Œé¿å…é‡å¤è®¾ç½®å·²è¯»
 
 IF ROW_COUNT() > 0 THEN
 
 
 
-	# ¹ØÁª±êÇ©Î´¶ÁÊı + 1
+	# å…³è”æ ‡ç­¾æœªè¯»æ•° + 1
 
 	UPDATE td_label, td_tudu_label SET td_label.unread_num = td_label.unread_num + 1,
 
@@ -1408,19 +1408,19 @@ DECLARE in_org_id varchar(60);
 
 
 
-# ²éÑ¯Í¼¶ÈĞÅÏ¢
+# æŸ¥è¯¢å›¾åº¦ä¿¡æ¯
 
 SELECT board_id, reply_num, org_id INTO from_board_id, tudu_reply_num, in_org_id FROM td_tudu WHERE tudu_id = in_tudu_id;
 
 
 
-# ¸üĞÂÍ¼¶ÈĞÅÏ¢
+# æ›´æ–°å›¾åº¦ä¿¡æ¯
 
 UPDATE td_tudu SET board_id = in_board_id, class_id = in_class_id WHERE tudu_id = in_tudu_id;
 
 
 
-# ¸üĞÂ°æ¿éÍ¼¶ÈÊı£¬»Ø¸´Êı
+# æ›´æ–°ç‰ˆå—å›¾åº¦æ•°ï¼Œå›å¤æ•°
 
 UPDATE td_board SET
 
@@ -1432,7 +1432,7 @@ WHERE board_id = in_board_id AND org_id = in_org_id;
 
 
 
-# ¸üĞÂÔ­°æ¿éÍ¼¶ÈÊı£¬»Ø¸´Êı
+# æ›´æ–°åŸç‰ˆå—å›¾åº¦æ•°ï¼Œå›å¤æ•°
 
 UPDATE td_board SET
 
@@ -1474,7 +1474,7 @@ DECLARE in_tudu_privacy tinyint(1);
 
 
 
-# »ñÈ¡»Ø¸´Ïà¹ØĞÅÏ¢
+# è·å–å›å¤ç›¸å…³ä¿¡æ¯
 
 SELECT p.org_id, p.board_id, p.is_send, IF(p.is_log = 1, 1, 0), p.poster, p.create_time, b.privacy, t.privacy 
 
@@ -1490,13 +1490,13 @@ WHERE p.tudu_id = in_tudu_id AND p.post_id = in_post_id AND p.is_first = 0;
 
 
 
-# Î´·¢ËÍ¹ı
+# æœªå‘é€è¿‡
 
 IF `in_is_send` <> 1 THEN
 
 
 
-    # ÉèÖÃÎªÒÑ·¢ËÍ
+    # è®¾ç½®ä¸ºå·²å‘é€
 
     UPDATE td_post SET `is_send` = 1 WHERE tudu_id = in_tudu_id AND post_id = in_post_id;
 
@@ -1504,7 +1504,7 @@ IF `in_is_send` <> 1 THEN
 
     /*
 
-    # ¸üĞÂÍ¼¶ÈÍ³¼Æ¼°×îºó»Ø¸´ĞÅÏ¢
+    # æ›´æ–°å›¾åº¦ç»Ÿè®¡åŠæœ€åå›å¤ä¿¡æ¯
 
     UPDATE td_tudu
 
@@ -1514,7 +1514,7 @@ IF `in_is_send` <> 1 THEN
 
     
 
-    # ¸üĞÂ°æ¿éÍ³¼Æ¼°×îºó»Ø¸´ĞÅÏ¢
+    # æ›´æ–°ç‰ˆå—ç»Ÿè®¡åŠæœ€åå›å¤ä¿¡æ¯
 
     UPDATE td_board, td_tudu
 
@@ -1534,7 +1534,7 @@ IF `in_is_send` <> 1 THEN
 
     
 
-    # ¸üĞÂ°æ¿éÍ³¼Æ£¬Í¼¶ÈÍ³¼Æ¼°×îºó»Ø¸´ĞÅÏ¢
+    # æ›´æ–°ç‰ˆå—ç»Ÿè®¡ï¼Œå›¾åº¦ç»Ÿè®¡åŠæœ€åå›å¤ä¿¡æ¯
 
     UPDATE td_board, td_tudu
 
@@ -1574,19 +1574,19 @@ BEGIN
 
 #
 
-# ·¢ËÍÍ¼¶È
+# å‘é€å›¾åº¦
 
 #
 
-# 1.ÉèÖÃÎª·Ç²İ¸å×´Ì¬
+# 1.è®¾ç½®ä¸ºéè‰ç¨¿çŠ¶æ€
 
-# 2.¸üĞÂ°æ¿éÍ³¼Æ
+# 2.æ›´æ–°ç‰ˆå—ç»Ÿè®¡
 
 #
 
-# ´´½¨Í¼¶È¸ú·¢ËÍÍ¼¶ÈÊÇÁ½¸ö¹ı³Ì£¬Ö»ÓĞ·¢ËÍ¹ıµÄÍ¼¶È£¬²Å»áÓ°Ïìµ½°æ¿éµÄÍ³¼ÆÊı
+# åˆ›å»ºå›¾åº¦è·Ÿå‘é€å›¾åº¦æ˜¯ä¸¤ä¸ªè¿‡ç¨‹ï¼Œåªæœ‰å‘é€è¿‡çš„å›¾åº¦ï¼Œæ‰ä¼šå½±å“åˆ°ç‰ˆå—çš„ç»Ÿè®¡æ•°
 
-# ¼°×îºó»Ø¸´ĞÅÏ¢
+# åŠæœ€åå›å¤ä¿¡æ¯
 
 DECLARE in_tudu_privacy tinyint(1);
 
@@ -1645,7 +1645,7 @@ BEGIN
 
 #
 
-# ¸üĞÂÍ¼¶ÈµÄ±êÇ©±êÊ¶
+# æ›´æ–°å›¾åº¦çš„æ ‡ç­¾æ ‡è¯†
 
 #
 
@@ -1669,13 +1669,13 @@ BEGIN
 
 #
 
-# ¸üĞÂÍ¼¶È½ø¶È
+# æ›´æ–°å›¾åº¦è¿›åº¦
 
 #
 
-# 1.¸üĞÂµ±Ç°Ö´ĞĞÈË½ø¶È
+# 1.æ›´æ–°å½“å‰æ‰§è¡Œäººè¿›åº¦
 
-# 2.¸üĞÂÖ÷ÈÎÎñ½ø¶È
+# 2.æ›´æ–°ä¸»ä»»åŠ¡è¿›åº¦
 
 #
 
@@ -1689,7 +1689,7 @@ IF (in_unique_id IS NOT NULL AND in_percent IS NOT NULL) THEN
 
 
 
-   # ¸üĞÂµ±Ç°Ö´ĞĞÈË½ø¶È¼°×´Ì¬
+   # æ›´æ–°å½“å‰æ‰§è¡Œäººè¿›åº¦åŠçŠ¶æ€
 
     UPDATE td_tudu_user SET 
 
@@ -1707,13 +1707,13 @@ END IF;
 
 
 
-# Í³¼Æµ±Ç°ÈÎÎñ×Ü½ø¶È
+# ç»Ÿè®¡å½“å‰ä»»åŠ¡æ€»è¿›åº¦
 
 SELECT AVG(percent) INTO total_percent FROM td_tudu_user WHERE tudu_id = in_tudu_id AND role = 'to' AND (tudu_status IS NULL OR tudu_status < 3);
 
 
 
-# ¸üĞÂÖ÷ÈÎÎñ½ø¶È¼°×´Ì¬
+# æ›´æ–°ä¸»ä»»åŠ¡è¿›åº¦åŠçŠ¶æ€
 
 UPDATE td_tudu SET 
 
@@ -1727,7 +1727,7 @@ WHERE tudu_id = in_tudu_id;
 
 
 
-# ·µ»Øµ±Ç°ÈÎÎñ×Ü½ø¶È
+# è¿”å›å½“å‰ä»»åŠ¡æ€»è¿›åº¦
 
 SELECT total_percent AS percent;
 
@@ -1752,7 +1752,7 @@ DECLARE no_more_user tinyint default 0;
 
 
 
-# ¶¨ÒåÓÎ±ê
+# å®šä¹‰æ¸¸æ ‡
 
 DECLARE cur_users CURSOR FOR
 
@@ -1760,33 +1760,33 @@ SELECT unique_id FROM td_tudu_user WHERE tudu_id = in_tudu_id AND is_read = 1 FO
 
 
 
-# ¶¨Òå¼ÇÂ¼»ñÈ¡²»µ½Ê±²Ù×÷
+# å®šä¹‰è®°å½•è·å–ä¸åˆ°æ—¶æ“ä½œ
 
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET no_more_user = 1;
 
 
-# ´ò¿ªÓÎ±ê
+# æ‰“å¼€æ¸¸æ ‡
 
 OPEN cur_users;
 
 
-# Ñ­»·ËùÓĞµÄĞĞ
+# å¾ªç¯æ‰€æœ‰çš„è¡Œ
 
 REPEAT FETCH cur_users INTO in_unique_id;
 
 
-# ÉèÖÃÎªÎ´¶Á×´Ì¬
+# è®¾ç½®ä¸ºæœªè¯»çŠ¶æ€
 
 UPDATE td_tudu_user SET is_read = 0 WHERE unique_id = in_unique_id AND tudu_id = in_tudu_id;
 
 
-# ÓĞ¸üĞÂÊı¾İÊ±²Ù×÷£¬±ÜÃâÖØ¸´ÉèÖÃÒÑ¶Á
+# æœ‰æ›´æ–°æ•°æ®æ—¶æ“ä½œï¼Œé¿å…é‡å¤è®¾ç½®å·²è¯»
 
 IF ROW_COUNT() > 0 THEN
 
 
 
-   # ÅúÁ¿¸üĞÂ±êÇ©Í³¼Æ£¬ÉèÖÃÎ´¶ÁÊı + 1
+   # æ‰¹é‡æ›´æ–°æ ‡ç­¾ç»Ÿè®¡ï¼Œè®¾ç½®æœªè¯»æ•° + 1
 
    UPDATE td_label, td_tudu_label
 
@@ -1806,11 +1806,11 @@ IF ROW_COUNT() > 0 THEN
 
 END IF;
 
-# Ñ­»·½áÊø
+# å¾ªç¯ç»“æŸ
 
 UNTIL no_more_user END REPEAT;
 
-# ¹Ø±ÕÓÎ±ê
+# å…³é—­æ¸¸æ ‡
 
 CLOSE cur_users;
 
@@ -1826,19 +1826,19 @@ BEGIN
 
 
 
-# ÉèÖÃÎªÎ´¶Á×´Ì¬
+# è®¾ç½®ä¸ºæœªè¯»çŠ¶æ€
 
 UPDATE td_tudu_user SET is_read = 1 WHERE unique_id = in_unique_id AND tudu_id = in_tudu_id;
 
 
 
-# ÓĞ¸üĞÂÊı¾İÊ±²Ù×÷£¬±ÜÃâÖØ¸´ÉèÖÃÒÑ¶Á
+# æœ‰æ›´æ–°æ•°æ®æ—¶æ“ä½œï¼Œé¿å…é‡å¤è®¾ç½®å·²è¯»
 
 IF ROW_COUNT() > 0 THEN
 
 
 
-	# ¹ØÁª±êÇ©Î´¶ÁÊı - 1
+	# å…³è”æ ‡ç­¾æœªè¯»æ•° - 1
 
 	UPDATE td_label, td_tudu_label SET td_label.unread_num = td_label.unread_num - 1,
 

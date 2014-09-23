@@ -1,112 +1,112 @@
-CREATE TABLE `td_board` (
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT '°æ¿éID',
-  `type` enum('zone','board','system') NOT NULL DEFAULT 'zone' COMMENT '°æ¿éÀàĞÍ',
-  `owner_id` varchar(60) NOT NULL DEFAULT '' COMMENT '°æ¿éËùÓĞÕßID',
-  `parent_board_id` varchar(36) DEFAULT NULL COMMENT 'ÉÏ¼¶°æ¿éID',
-  `board_name` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '°æ¿éÃû³Æ',
-  `memo` text CHARACTER SET utf8 COMMENT '°æ¿éËµÃ÷',
-  `moderators` text CHARACTER SET utf8 COMMENT '°æÖ÷',
-  `groups` text COMMENT 'ÔÊĞíÓÃ»§×é,email¸ñÊ½ÎªÓÃ»§,·Çemail¸ñÊ½ÎªÈº×éID',
-  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '°æ¿é×´Ì¬: 0 - ¹«¿ª°æ¿é, 1 - Òş²Ø°æ¿é, 2 - ¹Ø±Õ°å¿é',
+ï»¿CREATE TABLE `td_board` (
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç‰ˆå—ID',
+  `type` enum('zone','board','system') NOT NULL DEFAULT 'zone' COMMENT 'ç‰ˆå—ç±»å‹',
+  `owner_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç‰ˆå—æ‰€æœ‰è€…ID',
+  `parent_board_id` varchar(36) DEFAULT NULL COMMENT 'ä¸Šçº§ç‰ˆå—ID',
+  `board_name` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'ç‰ˆå—åç§°',
+  `memo` text CHARACTER SET utf8 COMMENT 'ç‰ˆå—è¯´æ˜',
+  `moderators` text CHARACTER SET utf8 COMMENT 'ç‰ˆä¸»',
+  `groups` text COMMENT 'å…è®¸ç”¨æˆ·ç»„,emailæ ¼å¼ä¸ºç”¨æˆ·,éemailæ ¼å¼ä¸ºç¾¤ç»„ID',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT 'ç‰ˆå—çŠ¶æ€: 0 - å…¬å¼€ç‰ˆå—, 1 - éšè—ç‰ˆå—, 2 - å…³é—­æ¿å—',
   `privacy` tinyint(1) NOT NULL DEFAULT '0',
   `protect` tinyint(1) NOT NULL DEFAULT '0',
-  `is_classify` tinyint(1) NOT NULL DEFAULT '0' COMMENT '±ØĞëÑ¡Ôñ·ÖÀà',
-  `flow_only` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÖ»ÔÊĞíÊ¹ÓÃ¹¤×÷Á÷',
-  `need_confirm` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Í¼¶ÈÊÇ·ñĞèÒªÈ·ÈÏ',
-  `last_post` varchar(250) CHARACTER SET utf8 DEFAULT NULL COMMENT '×îºó»Ø¸´ĞÅÏ¢',
-  `tudu_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '×ÜÍ¼¶ÈÊı',
-  `post_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '×Ü»Ø¸´Êı',
-  `today_tudu_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '½ñÌìÍ¼¶ÈÊı',
-  `order_num` int(11) NOT NULL DEFAULT '0' COMMENT 'ÅÅĞòÊıÖµ',
-  `temp_is_done` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Êı¾İ¹ı¶ÉÊÇ·ñÍê³É',
-  `last_update_time` int(10) unsigned DEFAULT NULL COMMENT '°æ¿é×îºó¸üĞÂÊ±¼ä',
+  `is_classify` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'å¿…é¡»é€‰æ‹©åˆ†ç±»',
+  `flow_only` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦åªå…è®¸ä½¿ç”¨å·¥ä½œæµ',
+  `need_confirm` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'å›¾åº¦æ˜¯å¦éœ€è¦ç¡®è®¤',
+  `last_post` varchar(250) CHARACTER SET utf8 DEFAULT NULL COMMENT 'æœ€åå›å¤ä¿¡æ¯',
+  `tudu_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'æ€»å›¾åº¦æ•°',
+  `post_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'æ€»å›å¤æ•°',
+  `today_tudu_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'ä»Šå¤©å›¾åº¦æ•°',
+  `order_num` int(11) NOT NULL DEFAULT '0' COMMENT 'æ’åºæ•°å€¼',
+  `temp_is_done` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ•°æ®è¿‡æ¸¡æ˜¯å¦å®Œæˆ',
+  `last_update_time` int(10) unsigned DEFAULT NULL COMMENT 'ç‰ˆå—æœ€åæ›´æ–°æ—¶é—´',
   PRIMARY KEY (`org_id`,`board_id`),
   KEY `idx_order` (`type`,`order_num`),
   KEY `fk_parent_board` (`org_id`,`parent_board_id`),
   KEY `idx_temp_is_done` (`temp_is_done`),
   CONSTRAINT `fk_parent_board` FOREIGN KEY (`org_id`, `parent_board_id`) REFERENCES `td_board` (`org_id`, `board_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Í¼¶È°æ¿é';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å›¾åº¦ç‰ˆå—';
 
-INSERT INTO td_board (org_id, board_id, type, owner_id, board_name, moderators, groups, privacy, order_num) VALUES ('testorg', '^zone', 'zone', 'admin', 'Ä¬ÈÏ·ÖÇø', 'admin ¹ÜÀíÔ±', '^all', 0, 1);
-INSERT INTO td_board (org_id, board_id, type, owner_id, board_name, moderators, groups, privacy, parent_board_id, order_num) VALUES ('testorg', '^board', 'board', 'admin', 'Ä¬ÈÏ°æ¿é', 'admin ¹ÜÀíÔ±', '^all', 1, '^zone', 1);
+INSERT INTO td_board (org_id, board_id, type, owner_id, board_name, moderators, groups, privacy, order_num) VALUES ('testorg', '^zone', 'zone', 'admin', 'é»˜è®¤åˆ†åŒº', 'admin ç®¡ç†å‘˜', '^all', 0, 1);
+INSERT INTO td_board (org_id, board_id, type, owner_id, board_name, moderators, groups, privacy, parent_board_id, order_num) VALUES ('testorg', '^board', 'board', 'admin', 'é»˜è®¤ç‰ˆå—', 'admin ç®¡ç†å‘˜', '^all', 1, '^zone', 1);
 
 
 CREATE TABLE `td_board_user` (
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT '°å¿éID',
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÓÃ»§Î¨Ò»ID',
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ¿å—ID',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç”¨æˆ·å”¯ä¸€ID',
   `order_num` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`org_id`,`board_id`,`unique_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='ÓÃ»§¿ì½İ°å¿é±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç”¨æˆ·å¿«æ·æ¿å—è¡¨';
 
 
 CREATE TABLE `td_board_favor` (
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT '°æ¿éID',
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÓÃ»§Î¨Ò»ID',
-  `weight` int(11) NOT NULL DEFAULT '0' COMMENT 'È¨ÖØ£¨·¢ËÍÆµÂÊ£©£¬ÊÖ¹¤µ÷Õû 99999 - 98999£¬ÏµÍ³Ìí¼Ó0 - 10000',
-  `last_update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '×îºó¸üĞÂÊ±¼ä',
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç‰ˆå—ID',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç”¨æˆ·å”¯ä¸€ID',
+  `weight` int(11) NOT NULL DEFAULT '0' COMMENT 'æƒé‡ï¼ˆå‘é€é¢‘ç‡ï¼‰ï¼Œæ‰‹å·¥è°ƒæ•´ 99999 - 98999ï¼Œç³»ç»Ÿæ·»åŠ 0 - 10000',
+  `last_update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'æœ€åæ›´æ–°æ—¶é—´',
   PRIMARY KEY (`unique_id`,`board_id`,`org_id`),
   KEY `idx_weight` (`weight`),
   KEY `idx_org_id_board_id` (`org_id`,`board_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='ÓÃ»§³£ÓÃ°æ¿é¼ÇÂ¼±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç”¨æˆ·å¸¸ç”¨ç‰ˆå—è®°å½•è¡¨';
 
 
 CREATE TABLE `td_board_sort` (
-  `unique_id` varchar(36) NOT NULL COMMENT 'ÓÃ»§Î¨Ò»ID',
-  `sort` text NOT NULL COMMENT '°å¿éÅÅĞò',
+  `unique_id` varchar(36) NOT NULL COMMENT 'ç”¨æˆ·å”¯ä¸€ID',
+  `sort` text NOT NULL COMMENT 'æ¿å—æ’åº',
   PRIMARY KEY (`unique_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='ÓÃ»§°å¿éÅÅĞò±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç”¨æˆ·æ¿å—æ’åºè¡¨';
 
 
 CREATE TABLE `td_class` (
   `org_id` varchar(60) NOT NULL DEFAULT '',
   `class_id` varchar(36) NOT NULL DEFAULT '',
-  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT '°å¿éID',
+  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ¿å—ID',
   `class_name` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `order_num` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`org_id`,`class_id`),
   KEY `idx_board` (`board_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='·ÖÀà';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='åˆ†ç±»';
 
 
 CREATE TABLE `td_label` (
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÓÃ»§Î¨Ò»ID',
-  `label_id` varchar(36) NOT NULL DEFAULT '' COMMENT '±êÇ©ID',
-  `label_alias` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '±êÇ©±ğÃû',
-  `is_system` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÏµÍ³±êÇ©',
-  `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'ÊÇ·ñÏÔÊ¾£¬0.Òş²Ø£¬1.ÏÔÊ¾£¬2.×Ô¶¯',
-  `color` char(7) DEFAULT NULL COMMENT '×ÖÌåÑÕÉ«',
-  `bgcolor` char(7) DEFAULT NULL COMMENT '±³¾°ÑÕÉ«',
-  `display` tinyint(1) DEFAULT '1' COMMENT 'Ê¾ÏÔ·¶Î§ 1.½öÔÚWebÖĞÏÔÊ¾ 2. ½öÔÚAPIÖĞÊä³ö',
-  `total_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '×ÜÍ¼¶ÈÊı',
-  `unread_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Î´¶ÁÍ¼¶ÈÊı',
-  `sync_time` int(10) unsigned DEFAULT NULL COMMENT 'Í¬²¼Ê±¼ä',
-  `order_num` int(11) NOT NULL DEFAULT '0' COMMENT 'ÅÅĞò',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç”¨æˆ·å”¯ä¸€ID',
+  `label_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ ‡ç­¾ID',
+  `label_alias` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'æ ‡ç­¾åˆ«å',
+  `is_system` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦ç³»ç»Ÿæ ‡ç­¾',
+  `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'æ˜¯å¦æ˜¾ç¤ºï¼Œ0.éšè—ï¼Œ1.æ˜¾ç¤ºï¼Œ2.è‡ªåŠ¨',
+  `color` char(7) DEFAULT NULL COMMENT 'å­—ä½“é¢œè‰²',
+  `bgcolor` char(7) DEFAULT NULL COMMENT 'èƒŒæ™¯é¢œè‰²',
+  `display` tinyint(1) DEFAULT '1' COMMENT 'ç¤ºæ˜¾èŒƒå›´ 1.ä»…åœ¨Webä¸­æ˜¾ç¤º 2. ä»…åœ¨APIä¸­è¾“å‡º',
+  `total_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'æ€»å›¾åº¦æ•°',
+  `unread_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'æœªè¯»å›¾åº¦æ•°',
+  `sync_time` int(10) unsigned DEFAULT NULL COMMENT 'åŒå¸ƒæ—¶é—´',
+  `order_num` int(11) NOT NULL DEFAULT '0' COMMENT 'æ’åº',
   PRIMARY KEY (`unique_id`,`label_id`),
   UNIQUE KEY `idx_lable_alias` (`unique_id`,`label_alias`),
   KEY `idx_order_num` (`order_num`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='ÓÃ»§±êÇ©';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç”¨æˆ·æ ‡ç­¾';
 
 
 CREATE TABLE `td_contact` (
   `contact_id` varchar(36) NOT NULL DEFAULT '',
   `unique_id` varchar(36) NOT NULL DEFAULT '',
-  `from_user` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÀ´×ÔÓÃ»§',
-  `true_name` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'ĞÕÃû',
-  `pinyin` varchar(255) DEFAULT NULL COMMENT 'Æ´ÒôÒôĞò',
-  `email` varchar(255) DEFAULT NULL COMMENT 'emailµØÖ·',
-  `mobile` varchar(20) DEFAULT NULL COMMENT 'ÊÖ»úºÅÂë',
-  `properties` text CHARACTER SET utf8 COMMENT 'ÓÃ»§ÆäËûÊôĞÔ¼¯ºÏ,json¸ñÊ½',
-  `memo` varchar(200) CHARACTER SET utf8 DEFAULT NULL COMMENT '±¸×¢',
-  `avatars` blob COMMENT 'Í·Ïñ',
-  `avatars_type` varchar(20) DEFAULT NULL COMMENT 'Í·ÏñMIMEÀàĞÍ',
-  `affinity` int(11) NOT NULL DEFAULT '0' COMMENT 'Ç×ÃÜ¶È',
-  `last_contact_time` int(10) DEFAULT NULL COMMENT '×îºóÁªÏµÊ±¼ä',
-  `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'ÊÇ·ñÏÔÊ¾',
+  `from_user` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦æ¥è‡ªç”¨æˆ·',
+  `true_name` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'å§“å',
+  `pinyin` varchar(255) DEFAULT NULL COMMENT 'æ‹¼éŸ³éŸ³åº',
+  `email` varchar(255) DEFAULT NULL COMMENT 'emailåœ°å€',
+  `mobile` varchar(20) DEFAULT NULL COMMENT 'æ‰‹æœºå·ç ',
+  `properties` text CHARACTER SET utf8 COMMENT 'ç”¨æˆ·å…¶ä»–å±æ€§é›†åˆ,jsonæ ¼å¼',
+  `memo` varchar(200) CHARACTER SET utf8 DEFAULT NULL COMMENT 'å¤‡æ³¨',
+  `avatars` blob COMMENT 'å¤´åƒ',
+  `avatars_type` varchar(20) DEFAULT NULL COMMENT 'å¤´åƒMIMEç±»å‹',
+  `affinity` int(11) NOT NULL DEFAULT '0' COMMENT 'äº²å¯†åº¦',
+  `last_contact_time` int(10) DEFAULT NULL COMMENT 'æœ€åè”ç³»æ—¶é—´',
+  `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'æ˜¯å¦æ˜¾ç¤º',
   `groups` text NOT NULL,
-  `temp_is_done` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Êı¾İ¹ı¶ÉÊÇ·ñÍê³É',
+  `temp_is_done` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ•°æ®è¿‡æ¸¡æ˜¯å¦å®Œæˆ',
   PRIMARY KEY (`contact_id`,`unique_id`),
   KEY `idx_email` (`email`),
   KEY `idx_true_name` (`true_name`),
@@ -115,101 +115,101 @@ CREATE TABLE `td_contact` (
   KEY `idx_true_name_email` (`true_name`,`email`),
   KEY `idx_unique_id_show` (`unique_id`,`is_show`),
   KEY `idx_temp_is_done` (`temp_is_done`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `td_contact_group` (
-  `group_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Èº×éID',
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ËùÊôÓÃ»§Î¨Ò»ID',
-  `is_system` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÏµÍ³Èº×é',
-  `name` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'Èº×éÃû³Æ',
-  `bgcolor` varchar(10) DEFAULT NULL COMMENT '±³¾°ÑÕÉ«',
-  `order_num` int(11) NOT NULL DEFAULT '0' COMMENT 'ÅÅĞòID',
+  `group_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç¾¤ç»„ID',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ‰€å±ç”¨æˆ·å”¯ä¸€ID',
+  `is_system` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦ç³»ç»Ÿç¾¤ç»„',
+  `name` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'ç¾¤ç»„åç§°',
+  `bgcolor` varchar(10) DEFAULT NULL COMMENT 'èƒŒæ™¯é¢œè‰²',
+  `order_num` int(11) NOT NULL DEFAULT '0' COMMENT 'æ’åºID',
   PRIMARY KEY (`unique_id`,`group_id`),
   KEY `idx_is_system` (`is_system`),
   KEY `idx_order_num` (`order_num`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='ÁªÏµÈËÈº×é';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='è”ç³»äººç¾¤ç»„';
 
 
 CREATE TABLE `td_contact_group_member` (
-  `contact_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÁªÏµÈËID',
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÓÃ»§Î¨Ò»ID',
-  `group_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Èº×éID',
+  `contact_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'è”ç³»äººID',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç”¨æˆ·å”¯ä¸€ID',
+  `group_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç¾¤ç»„ID',
   PRIMARY KEY (`contact_id`,`group_id`,`unique_id`),
   KEY `fk_member_of_which_group` (`unique_id`,`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `td_tudu_cycle` (
-  `cycle_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÖÜÆÚID',
-  `mode` enum('day','week','month','year') NOT NULL DEFAULT 'day' COMMENT '¶¨ÆÚÄ£Ê½',
-  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '¶¨ÆÚÀàĞÍ',
-  `day` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Ìì',
-  `week` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'ÖÜ',
-  `month` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'ÔÂ',
-  `weeks` varchar(14) NOT NULL DEFAULT '' COMMENT '¶à¸öÖÜ',
-  `at` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'µÚ¼¸¸ö£¬ 0 Îª×îºóÒ»¸ö¡£Óëwhat×éºÏ',
-  `what` enum('day','workday','weekend','sun','mon','tue','wed','thu','fri','sat') DEFAULT NULL COMMENT 'Ê²Ã´ÈÕ×Ó£¬Óëat×éºÏ£¬´ú±íÈçµÚ¶ş¸öĞÇÆÚÈı¡£',
-  `period` int(11) NOT NULL DEFAULT '0' COMMENT 'ÈÎÎñÖÜÆÚ£¬µ¥Î»Ìì',
-  `count` int(11) NOT NULL DEFAULT '0' COMMENT 'ÒÑÖ´ĞĞ´ÎÊıÍ³¼Æ',
-  `display_date` tinyint(1) NOT NULL DEFAULT '0' COMMENT '±êÌâÊÇ·ñÏÔÊ¾¿ªÊ¼ÈÕÆÚ',
-  `is_keep_attach` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñ¼Ì³Ğ¸½¼ş',
-  `end_type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '½áÊøÀàĞÍ£¬0-ÎŞ½áÊøÈÕÆÚ£¬1-ÖØ¸´´ÎÊı£¬2-½áÊøÈÕÆÚ',
-  `end_count` int(11) NOT NULL DEFAULT '0' COMMENT '½áÊøµÄ´ÎÊı',
-  `end_date` int(11) DEFAULT NULL COMMENT '½áÊøÈÕÆÚ',
-  `is_valid` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'ÊÇ·ñÓĞĞ§(É¾³ıÖÜÆÚÈÎÎñÊ±»á±ê¼ÇÎªÎŞĞ§)',
+  `cycle_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'å‘¨æœŸID',
+  `mode` enum('day','week','month','year') NOT NULL DEFAULT 'day' COMMENT 'å®šæœŸæ¨¡å¼',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'å®šæœŸç±»å‹',
+  `day` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'å¤©',
+  `week` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'å‘¨',
+  `month` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'æœˆ',
+  `weeks` varchar(14) NOT NULL DEFAULT '' COMMENT 'å¤šä¸ªå‘¨',
+  `at` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'ç¬¬å‡ ä¸ªï¼Œ 0 ä¸ºæœ€åä¸€ä¸ªã€‚ä¸whatç»„åˆ',
+  `what` enum('day','workday','weekend','sun','mon','tue','wed','thu','fri','sat') DEFAULT NULL COMMENT 'ä»€ä¹ˆæ—¥å­ï¼Œä¸atç»„åˆï¼Œä»£è¡¨å¦‚ç¬¬äºŒä¸ªæ˜ŸæœŸä¸‰ã€‚',
+  `period` int(11) NOT NULL DEFAULT '0' COMMENT 'ä»»åŠ¡å‘¨æœŸï¼Œå•ä½å¤©',
+  `count` int(11) NOT NULL DEFAULT '0' COMMENT 'å·²æ‰§è¡Œæ¬¡æ•°ç»Ÿè®¡',
+  `display_date` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ ‡é¢˜æ˜¯å¦æ˜¾ç¤ºå¼€å§‹æ—¥æœŸ',
+  `is_keep_attach` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦ç»§æ‰¿é™„ä»¶',
+  `end_type` tinyint(3) NOT NULL DEFAULT '0' COMMENT 'ç»“æŸç±»å‹ï¼Œ0-æ— ç»“æŸæ—¥æœŸï¼Œ1-é‡å¤æ¬¡æ•°ï¼Œ2-ç»“æŸæ—¥æœŸ',
+  `end_count` int(11) NOT NULL DEFAULT '0' COMMENT 'ç»“æŸçš„æ¬¡æ•°',
+  `end_date` int(11) DEFAULT NULL COMMENT 'ç»“æŸæ—¥æœŸ',
+  `is_valid` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'æ˜¯å¦æœ‰æ•ˆ(åˆ é™¤å‘¨æœŸä»»åŠ¡æ—¶ä¼šæ ‡è®°ä¸ºæ— æ•ˆ)',
   PRIMARY KEY (`cycle_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='ÈÎÎñÖÜÆÚ';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ä»»åŠ¡å‘¨æœŸ';
 
 
 CREATE TABLE `td_tudu` (
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT '°æ¿éID',
-  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Í¼¶ÈID',
-  `class_id` varchar(36) DEFAULT NULL COMMENT 'Ö÷Ìâ·ÖÀàID',
-  `cycle_id` varchar(36) DEFAULT NULL COMMENT 'ÖÜÆÚID',
-  `prev_tudu_id` varchar(36) DEFAULT NULL COMMENT 'Ç°ÖÃÈÎÎñID',
-  `app_id` varchar(128) NOT NULL DEFAULT '^system' COMMENT '·¢ËÍ³ÌĞòID',
-  `flow_id` varchar(36) DEFAULT NULL COMMENT '¹¤×÷Á÷ID',
-  `step_id` varchar(36) DEFAULT NULL COMMENT 'µ±Ç°Ö´ĞĞ²½ÖèID',
-  `type` enum('task','discuss','notice','meeting') NOT NULL DEFAULT 'task' COMMENT 'Í¼¶ÈÀàĞÍ',
-  `subject` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'Ö÷Ìâ',
-  `from` varchar(250) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '·¢Í¼ÈË',
-  `to` text CHARACTER SET utf8 COMMENT 'ÊÕÍ¼ÈË',
-  `cc` text CHARACTER SET utf8 COMMENT '³­ËÍ',
-  `bcc` text CHARACTER SET utf8 COMMENT 'ÃÜËÍ',
-  `priority` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÓÅÏÈ¼¶',
-  `privacy` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÒşË½',
-  `is_draft` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñ²İ¸å',
-  `is_done` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Í¼¶ÈÍê½á - ²»ÔÊĞíÔÙ»Ø¸´¼°ĞŞ¸Ä',
-  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÉ¾³ı - Î´Ê¹ÓÃ',
-  `is_top` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÖÃ¶¥',
-  `need_confirm` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñĞèÒªÈ·ÈÏ',
-  `accep_mode` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Ö´ĞĞ·½Ê½£º0.Õı³££¬1.ÈÏÁì',
-  `last_post_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '×îºó»Ø¸´Ê±¼ä',
-  `last_poster` varchar(15) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '×îºó»Ø¸´Õß£¨ĞÕÃû£©',
-  `last_forward` varchar(255) DEFAULT NULL COMMENT '×îºó×ª·¢ĞÅÏ¢',
-  `view_num` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'ä¯ÀÀ´ÎÊı',
-  `reply_num` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '»Ø¸´Êı',
-  `log_num` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'ÈÕÖ¾Êı',
-  `cycle_num` int(11) unsigned DEFAULT NULL COMMENT 'ÖÜÆÚÈÎÎñÑ­»·ĞòºÅ',
-  `step_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '²½ÖèÊıÁ¿',
-  `start_time` int(10) unsigned DEFAULT NULL COMMENT '¿ªÊ¼Ê±¼ä',
-  `end_time` int(10) unsigned DEFAULT NULL COMMENT '½áÊøÊ±¼ä',
-  `complete_time` int(10) unsigned DEFAULT NULL COMMENT 'ÈÎÎñÍê³ÉÊ±¼ä',
-  `total_time` int(10) unsigned DEFAULT NULL COMMENT 'Ô¤¼Æ×ÜºÄÊ±',
-  `elapsed_time` int(10) unsigned DEFAULT NULL COMMENT 'ÒÑºÄÊ±',
-  `accept_time` int(10) unsigned DEFAULT NULL COMMENT '½ÓÊÜÊ±¼ä',
-  `percent` tinyint(3) unsigned DEFAULT NULL COMMENT 'Íê³É°Ù·Ö±È',
-  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '×´Ì¬£º 0-Î´¿ªÊ¼£¬1-½øĞĞÖĞ£¬2-ÒÑÍê³É£¬3-ÒÑ¾Ü¾ø£¬ 4-ÒÑÈ¡Ïû',
-  `special` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '1-Ñ­»·ÈÎÎñ 2-Í¶Æ± 4-Í¼¶È×é',
-  `notify_all` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÌáĞÑËùÓĞ²ÎÓëÈË',
-  `score` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '·ÖÊı',
-  `password` varchar(16) DEFAULT NULL COMMENT '·ÃÎÊÃÜÂë',
-  `is_auth` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñĞèÒªÑéÖ¤Âë',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '´´½¨Ê±¼ä',
-  `tudu_index_num` int(10) unsigned DEFAULT NULL COMMENT 'Í¼¶ÈË÷ÒıID',
-  `tudu_index_num2` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'È«ÎÄË÷ÒıËùĞèµÄË÷ÒıID',
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç‰ˆå—ID',
+  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'å›¾åº¦ID',
+  `class_id` varchar(36) DEFAULT NULL COMMENT 'ä¸»é¢˜åˆ†ç±»ID',
+  `cycle_id` varchar(36) DEFAULT NULL COMMENT 'å‘¨æœŸID',
+  `prev_tudu_id` varchar(36) DEFAULT NULL COMMENT 'å‰ç½®ä»»åŠ¡ID',
+  `app_id` varchar(128) NOT NULL DEFAULT '^system' COMMENT 'å‘é€ç¨‹åºID',
+  `flow_id` varchar(36) DEFAULT NULL COMMENT 'å·¥ä½œæµID',
+  `step_id` varchar(36) DEFAULT NULL COMMENT 'å½“å‰æ‰§è¡Œæ­¥éª¤ID',
+  `type` enum('task','discuss','notice','meeting') NOT NULL DEFAULT 'task' COMMENT 'å›¾åº¦ç±»å‹',
+  `subject` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'ä¸»é¢˜',
+  `from` varchar(250) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'å‘å›¾äºº',
+  `to` text CHARACTER SET utf8 COMMENT 'æ”¶å›¾äºº',
+  `cc` text CHARACTER SET utf8 COMMENT 'æŠ„é€',
+  `bcc` text CHARACTER SET utf8 COMMENT 'å¯†é€',
+  `priority` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ä¼˜å…ˆçº§',
+  `privacy` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'éšç§',
+  `is_draft` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦è‰ç¨¿',
+  `is_done` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'å›¾åº¦å®Œç»“ - ä¸å…è®¸å†å›å¤åŠä¿®æ”¹',
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦åˆ é™¤ - æœªä½¿ç”¨',
+  `is_top` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦ç½®é¡¶',
+  `need_confirm` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦éœ€è¦ç¡®è®¤',
+  `accep_mode` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ‰§è¡Œæ–¹å¼ï¼š0.æ­£å¸¸ï¼Œ1.è®¤é¢†',
+  `last_post_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'æœ€åå›å¤æ—¶é—´',
+  `last_poster` varchar(15) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'æœ€åå›å¤è€…ï¼ˆå§“åï¼‰',
+  `last_forward` varchar(255) DEFAULT NULL COMMENT 'æœ€åè½¬å‘ä¿¡æ¯',
+  `view_num` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'æµè§ˆæ¬¡æ•°',
+  `reply_num` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'å›å¤æ•°',
+  `log_num` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'æ—¥å¿—æ•°',
+  `cycle_num` int(11) unsigned DEFAULT NULL COMMENT 'å‘¨æœŸä»»åŠ¡å¾ªç¯åºå·',
+  `step_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'æ­¥éª¤æ•°é‡',
+  `start_time` int(10) unsigned DEFAULT NULL COMMENT 'å¼€å§‹æ—¶é—´',
+  `end_time` int(10) unsigned DEFAULT NULL COMMENT 'ç»“æŸæ—¶é—´',
+  `complete_time` int(10) unsigned DEFAULT NULL COMMENT 'ä»»åŠ¡å®Œæˆæ—¶é—´',
+  `total_time` int(10) unsigned DEFAULT NULL COMMENT 'é¢„è®¡æ€»è€—æ—¶',
+  `elapsed_time` int(10) unsigned DEFAULT NULL COMMENT 'å·²è€—æ—¶',
+  `accept_time` int(10) unsigned DEFAULT NULL COMMENT 'æ¥å—æ—¶é—´',
+  `percent` tinyint(3) unsigned DEFAULT NULL COMMENT 'å®Œæˆç™¾åˆ†æ¯”',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'çŠ¶æ€ï¼š 0-æœªå¼€å§‹ï¼Œ1-è¿›è¡Œä¸­ï¼Œ2-å·²å®Œæˆï¼Œ3-å·²æ‹’ç»ï¼Œ 4-å·²å–æ¶ˆ',
+  `special` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '1-å¾ªç¯ä»»åŠ¡ 2-æŠ•ç¥¨ 4-å›¾åº¦ç»„',
+  `notify_all` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦æé†’æ‰€æœ‰å‚ä¸äºº',
+  `score` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'åˆ†æ•°',
+  `password` varchar(16) DEFAULT NULL COMMENT 'è®¿é—®å¯†ç ',
+  `is_auth` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦éœ€è¦éªŒè¯ç ',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'åˆ›å»ºæ—¶é—´',
+  `tudu_index_num` int(10) unsigned DEFAULT NULL COMMENT 'å›¾åº¦ç´¢å¼•ID',
+  `tudu_index_num2` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'å…¨æ–‡ç´¢å¼•æ‰€éœ€çš„ç´¢å¼•ID',
   PRIMARY KEY (`tudu_id`),
   UNIQUE KEY `tudu_index_num2` (`tudu_index_num2`),
   UNIQUE KEY `idx_tudu_index_num` (`tudu_index_num`),
@@ -228,96 +228,96 @@ CREATE TABLE `td_tudu` (
   KEY `idx_flow_id` (`flow_id`),
   CONSTRAINT `fk_tudu_of_which_board` FOREIGN KEY (`org_id`, `board_id`) REFERENCES `td_board` (`org_id`, `board_id`),
   CONSTRAINT `fk_use_which_cycle` FOREIGN KEY (`cycle_id`) REFERENCES `td_tudu_cycle` (`cycle_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Í¼¶ÈÖ÷Ìâ±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å›¾åº¦ä¸»é¢˜è¡¨';
 
 
 CREATE TABLE `td_tudu_group` (
   `tudu_id` varchar(36) NOT NULL DEFAULT '',
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT '´´½¨ÓÃ»§Î¨Ò»ID',
-  `parent_tudu_id` varchar(36) DEFAULT NULL COMMENT '¸¸tuduID',
-  `root_tudu_id` varchar(36) DEFAULT NULL COMMENT '¸ùÍ¼¶ÈID',
-  `type` enum('root','node','leaf') NOT NULL DEFAULT 'leaf' COMMENT '½ÚµãÀàĞÍ',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'åˆ›å»ºç”¨æˆ·å”¯ä¸€ID',
+  `parent_tudu_id` varchar(36) DEFAULT NULL COMMENT 'çˆ¶tuduID',
+  `root_tudu_id` varchar(36) DEFAULT NULL COMMENT 'æ ¹å›¾åº¦ID',
+  `type` enum('root','node','leaf') NOT NULL DEFAULT 'leaf' COMMENT 'èŠ‚ç‚¹ç±»å‹',
   PRIMARY KEY (`tudu_id`),
   KEY `idx_parent_tudu_id` (`parent_tudu_id`),
   CONSTRAINT `group_of _which_tudu` FOREIGN KEY (`tudu_id`) REFERENCES `td_tudu` (`tudu_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Í¼¶È×é¹ØÏµ±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å›¾åº¦ç»„å…³ç³»è¡¨';
 
 
 CREATE TABLE `td_tudu_meeting` (
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Í¼¶ÈID',
-  `notify_time` int(11) DEFAULT NULL COMMENT 'ÌáĞÑÊ±¼ä£¨ÌáÇ°N·ÖÖÓÌáĞÑ£©',
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'å›¾åº¦ID',
+  `notify_time` int(11) DEFAULT NULL COMMENT 'æé†’æ—¶é—´ï¼ˆæå‰Nåˆ†é’Ÿæé†’ï¼‰',
   `notify_type` int(11) NOT NULL DEFAULT '0',
-  `location` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '»áÒéµØµã',
-  `is_allday` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÈ«Ìì',
-  `is_notified` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÒÑÖ´ĞĞÌáĞÑ',
+  `location` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT 'ä¼šè®®åœ°ç‚¹',
+  `is_allday` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦å…¨å¤©',
+  `is_notified` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦å·²æ‰§è¡Œæé†’',
   PRIMARY KEY (`tudu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='»áÒéĞÅÏ¢±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ä¼šè®®ä¿¡æ¯è¡¨';
 
 
 CREATE TABLE `td_vote` (
-  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Í¼¶ÈID',
-  `vote_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Í¶Æ±ID',
-  `title` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'Í¶Æ±±êÌâ',
+  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'å›¾åº¦ID',
+  `vote_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æŠ•ç¥¨ID',
+  `title` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'æŠ•ç¥¨æ ‡é¢˜',
   `max_choices` tinyint(3) NOT NULL DEFAULT '0',
-  `vote_count` int(11) NOT NULL DEFAULT '0' COMMENT 'Í¶Æ±ÀÛ»ı´ÎÊı',
-  `privacy` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Ë½ÃÜ£¨²»¼ÇÃû£©',
-  `visible` tinyint(1) NOT NULL DEFAULT '1' COMMENT '½á¹ûÊÇ·ñ¿É¼û',
-  `is_reset` tinyint(1) NOT NULL DEFAULT '0' COMMENT '¸üĞÂÊ±ÊÇ·ñÖØÖÃ(Çå0)',
-  `order_num` int(11) NOT NULL DEFAULT '0' COMMENT 'ÅÅĞòID',
+  `vote_count` int(11) NOT NULL DEFAULT '0' COMMENT 'æŠ•ç¥¨ç´¯ç§¯æ¬¡æ•°',
+  `privacy` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ç§å¯†ï¼ˆä¸è®°åï¼‰',
+  `visible` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'ç»“æœæ˜¯å¦å¯è§',
+  `is_reset` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ›´æ–°æ—¶æ˜¯å¦é‡ç½®(æ¸…0)',
+  `order_num` int(11) NOT NULL DEFAULT '0' COMMENT 'æ’åºID',
   `expire_time` int(11) DEFAULT NULL,
-  `anonymous` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÄäÃûÉèÖÃ£¨·¢ÆğÈË¿É¼ûÍ¶Æ±²ÎÓëÈË£©',
+  `anonymous` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦åŒ¿åè®¾ç½®ï¼ˆå‘èµ·äººå¯è§æŠ•ç¥¨å‚ä¸äººï¼‰',
   PRIMARY KEY (`tudu_id`,`vote_id`),
   KEY `idx_tudu_id` (`tudu_id`),
   CONSTRAINT `fk_vote_of_which_tudu` FOREIGN KEY (`tudu_id`) REFERENCES `td_tudu` (`tudu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `td_vote_option` (
   `tudu_id` varchar(36) NOT NULL DEFAULT '',
-  `vote_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ËùÊôÍ¶Æ±ID',
+  `vote_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ‰€å±æŠ•ç¥¨ID',
   `option_id` varchar(36) NOT NULL DEFAULT '',
-  `text` varchar(200) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'ÄÚÈİ',
+  `text` varchar(200) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'å†…å®¹',
   `order_num` tinyint(3) NOT NULL DEFAULT '0',
-  `vote_count` int(11) NOT NULL DEFAULT '0' COMMENT 'µÃÆ±Êı',
+  `vote_count` int(11) NOT NULL DEFAULT '0' COMMENT 'å¾—ç¥¨æ•°',
   `voters` text CHARACTER SET utf8,
   PRIMARY KEY (`option_id`),
   KEY `fk_option_of_which_vote` (`tudu_id`,`vote_id`),
   CONSTRAINT `fk_option_of_which_vote` FOREIGN KEY (`tudu_id`) REFERENCES `td_vote` (`tudu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `td_voter` (
   `unique_id` varchar(36) NOT NULL DEFAULT '',
   `tudu_id` varchar(36) NOT NULL DEFAULT '',
-  `vote_id` varchar(255) NOT NULL DEFAULT '' COMMENT 'Í¶Æ±ID',
+  `vote_id` varchar(255) NOT NULL DEFAULT '' COMMENT 'æŠ•ç¥¨ID',
   `options` text,
   `create_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`tudu_id`,`vote_id`,`unique_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `td_post` (
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT '°æ¿éID',
-  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Í¼¶ÈID',
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÓÃ»§Î¨Ò»ID',
-  `email` varchar(128) DEFAULT NULL COMMENT 'ÓÊÏäµØÖ·',
-  `post_id` varchar(36) NOT NULL DEFAULT '' COMMENT '»Ø¸´ID',
-  `poster` varchar(15) CHARACTER SET utf8 DEFAULT NULL COMMENT '»Ø¸´ÕßĞÕÃû',
-  `poster_info` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '»Ø¸´ÕßĞÅÏ¢£¨Èç²¿ÃÅ¼°Ö°Î»ĞÅÏ¢£©',
-  `is_first` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÍ¼¶ÈÄÚÈİ£¨×îÏÈ»Ø¸´µÄ¾ÍÊÇÄÚÈİ£©',
-  `is_log` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñ¸üĞÂÈÕÖ¾',
-  `is_send` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÒÑ¾­·¢ËÍ',
-  `is_foreign` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÍâ²¿ÈËÔ±·¢ËÍ',
-  `header` varchar(255) CHARACTER SET utf8 DEFAULT '0' COMMENT '»Ø¸´Í·ĞÅÏ¢',
-  `content` mediumtext CHARACTER SET utf8 NOT NULL COMMENT '»Ø¸´ÄÚÈİ',
-  `last_modify` varchar(80) CHARACTER SET utf8 DEFAULT NULL COMMENT '×îºóĞŞ¸ÄĞÅÏ¢',
-  `attach_num` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '¸½¼şÊıÁ¿',
-  `elapsed_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'ºÄÊ±',
-  `percent` tinyint(3) unsigned DEFAULT NULL COMMENT 'Íê³ÉÂÊ',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '´´½¨Ê±¼ä',
-  `temp_is_done` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Êı¾İ¹ı¶ÉÊÇ·ñÍê³É',
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç‰ˆå—ID',
+  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'å›¾åº¦ID',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç”¨æˆ·å”¯ä¸€ID',
+  `email` varchar(128) DEFAULT NULL COMMENT 'é‚®ç®±åœ°å€',
+  `post_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'å›å¤ID',
+  `poster` varchar(15) CHARACTER SET utf8 DEFAULT NULL COMMENT 'å›å¤è€…å§“å',
+  `poster_info` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT 'å›å¤è€…ä¿¡æ¯ï¼ˆå¦‚éƒ¨é—¨åŠèŒä½ä¿¡æ¯ï¼‰',
+  `is_first` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦å›¾åº¦å†…å®¹ï¼ˆæœ€å…ˆå›å¤çš„å°±æ˜¯å†…å®¹ï¼‰',
+  `is_log` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦æ›´æ–°æ—¥å¿—',
+  `is_send` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦å·²ç»å‘é€',
+  `is_foreign` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦å¤–éƒ¨äººå‘˜å‘é€',
+  `header` varchar(255) CHARACTER SET utf8 DEFAULT '0' COMMENT 'å›å¤å¤´ä¿¡æ¯',
+  `content` mediumtext CHARACTER SET utf8 NOT NULL COMMENT 'å›å¤å†…å®¹',
+  `last_modify` varchar(80) CHARACTER SET utf8 DEFAULT NULL COMMENT 'æœ€åä¿®æ”¹ä¿¡æ¯',
+  `attach_num` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'é™„ä»¶æ•°é‡',
+  `elapsed_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'è€—æ—¶',
+  `percent` tinyint(3) unsigned DEFAULT NULL COMMENT 'å®Œæˆç‡',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'åˆ›å»ºæ—¶é—´',
+  `temp_is_done` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ•°æ®è¿‡æ¸¡æ˜¯å¦å®Œæˆ',
   PRIMARY KEY (`tudu_id`,`post_id`),
   KEY `idx_create_time` (`create_time`),
   KEY `idx_unique_id` (`unique_id`),
@@ -325,266 +325,266 @@ CREATE TABLE `td_post` (
   KEY `idx_is_first` (`is_first`,`is_log`),
   KEY `idx_temp_is_done` (`temp_is_done`),
   CONSTRAINT `fk_post_of_which_tudu` FOREIGN KEY (`tudu_id`) REFERENCES `td_tudu` (`tudu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='»Ø¸´±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å›å¤è¡¨';
 
 
 CREATE TABLE `td_tudu_user` (
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÓÃ»§Î¨Ò»ID',
-  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Í¼¶ÈID',
-  `step_id` varchar(36) NOT NULL DEFAULT '^trunk' COMMENT '²½ÖèID£¬^trunkÖ¸ÏòÖ÷¸É',
-  `is_foreign` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÍâ²¿ÈËÔ±',
-  `is_read` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÒÑ¶Á',
-  `is_forward` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñ×ª·¢',
-  `labels` text NOT NULL COMMENT '±êÇ©±êÊ¶',
-  `mark2` tinyint(3) NOT NULL DEFAULT '0' COMMENT 'Í¼¶È¶ÔÓÃ»§±êÊ¶',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç”¨æˆ·å”¯ä¸€ID',
+  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'å›¾åº¦ID',
+  `step_id` varchar(36) NOT NULL DEFAULT '^trunk' COMMENT 'æ­¥éª¤IDï¼Œ^trunkæŒ‡å‘ä¸»å¹²',
+  `is_foreign` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦å¤–éƒ¨äººå‘˜',
+  `is_read` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦å·²è¯»',
+  `is_forward` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦è½¬å‘',
+  `labels` text NOT NULL COMMENT 'æ ‡ç­¾æ ‡è¯†',
+  `mark2` tinyint(3) NOT NULL DEFAULT '0' COMMENT 'å›¾åº¦å¯¹ç”¨æˆ·æ ‡è¯†',
   `mark` tinyint(3) NOT NULL DEFAULT '0',
-  `role` enum('from','to','cc') DEFAULT NULL COMMENT 'ÈËÔ±½ÇÉ«',
-  `accepter_info` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '½ÓÊÕÈËĞÅÏ¢ [email] [truename]',
-  `percent` tinyint(3) unsigned DEFAULT NULL COMMENT '¸öÈË¸üĞÂ½ø¶È',
-  `tudu_status` tinyint(3) unsigned DEFAULT NULL COMMENT 'Í¼¶È×´Ì¬£º 0-Î´¿ªÊ¼£¬1-½øĞĞÖĞ£¬2-ÒÑÍê³É£¬3-ÒÑ¾Ü¾ø',
-  `accept_time` int(10) unsigned DEFAULT NULL COMMENT '½ÓÊÜÊ±¼ä',
-  `complete_time` int(10) unsigned DEFAULT NULL COMMENT 'ÈÎÎñÍê³ÉÊ±¼ä',
-  `forward_info` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '×ª·¢ÈËĞÅÏ¢ truename\\ntime',
-  `auth_code` varchar(10) DEFAULT NULL COMMENT 'Íâ²¿ÓÃ»§ÑéÖ¤Âë',
+  `role` enum('from','to','cc') DEFAULT NULL COMMENT 'äººå‘˜è§’è‰²',
+  `accepter_info` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT 'æ¥æ”¶äººä¿¡æ¯ [email] [truename]',
+  `percent` tinyint(3) unsigned DEFAULT NULL COMMENT 'ä¸ªäººæ›´æ–°è¿›åº¦',
+  `tudu_status` tinyint(3) unsigned DEFAULT NULL COMMENT 'å›¾åº¦çŠ¶æ€ï¼š 0-æœªå¼€å§‹ï¼Œ1-è¿›è¡Œä¸­ï¼Œ2-å·²å®Œæˆï¼Œ3-å·²æ‹’ç»',
+  `accept_time` int(10) unsigned DEFAULT NULL COMMENT 'æ¥å—æ—¶é—´',
+  `complete_time` int(10) unsigned DEFAULT NULL COMMENT 'ä»»åŠ¡å®Œæˆæ—¶é—´',
+  `forward_info` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT 'è½¬å‘äººä¿¡æ¯ truename\\ntime',
+  `auth_code` varchar(10) DEFAULT NULL COMMENT 'å¤–éƒ¨ç”¨æˆ·éªŒè¯ç ',
   PRIMARY KEY (`unique_id`,`tudu_id`),
   KEY `idx_is_read` (`is_read`),
   KEY `idx_tudu_id` (`tudu_id`),
   KEY `idx_role` (`role`),
   CONSTRAINT `fk_tudu_has_which_user` FOREIGN KEY (`tudu_id`) REFERENCES `td_tudu` (`tudu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Í¼¶ÈÓÃ»§±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å›¾åº¦ç”¨æˆ·è¡¨';
 
 
 CREATE TABLE `td_template` (
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT '°å¿éID',
-  `template_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Ä£°åID',
-  `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '´´½¨ÈËuniqueid',
-  `name` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT 'Ä£°åÃû³Æ',
-  `content` text CHARACTER SET utf8 COMMENT 'Ä£°åÄÚÈİ',
-  `order_num` int(11) NOT NULL DEFAULT '0' COMMENT 'ÅÅĞò',
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ¿å—ID',
+  `template_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ¨¡æ¿ID',
+  `creator` varchar(255) NOT NULL DEFAULT '' COMMENT 'åˆ›å»ºäººuniqueid',
+  `name` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT 'æ¨¡æ¿åç§°',
+  `content` text CHARACTER SET utf8 COMMENT 'æ¨¡æ¿å†…å®¹',
+  `order_num` int(11) NOT NULL DEFAULT '0' COMMENT 'æ’åº',
   PRIMARY KEY (`board_id`,`template_id`),
   KEY `idx_creator` (`creator`),
   KEY `idx_org_id` (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `td_tudu_label` (
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÓÃ»§Î¨Ò»ID',
-  `label_id` varchar(36) NOT NULL DEFAULT '' COMMENT '±êÇ©ID',
-  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Í¼¶ÈID',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç”¨æˆ·å”¯ä¸€ID',
+  `label_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ ‡ç­¾ID',
+  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'å›¾åº¦ID',
   PRIMARY KEY (`unique_id`,`label_id`,`tudu_id`),
   KEY `idx_unique_tudu_id` (`unique_id`,`tudu_id`),
   CONSTRAINT `fk_tudu_has_which_label` FOREIGN KEY (`unique_id`, `tudu_id`) REFERENCES `td_tudu_user` (`unique_id`, `tudu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Í¼¶È±êÇ©±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å›¾åº¦æ ‡ç­¾è¡¨';
 
 
 CREATE TABLE `td_attachment` (
-  `file_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÎÄ¼şID',
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `file_name` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'ÎÄ¼şÃû³Æ',
-  `size` int(11) NOT NULL DEFAULT '0' COMMENT 'ÎÄ¼ş´óĞ¡£¨×Ö½Ú£©',
-  `type` varchar(100) NOT NULL DEFAULT '' COMMENT 'MIMEÀàĞÍ',
-  `path` varchar(100) NOT NULL DEFAULT '' COMMENT '±£´æÂ·¾¶',
-  `is_netdisk` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÀ´Ô´ÓÚÍøÅÌ',
-  `unique_id` varchar(36) DEFAULT NULL COMMENT 'ÓÃ»§Î¨Ò»ID',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '´´½¨Ê±¼ä',
+  `file_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ–‡ä»¶ID',
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `file_name` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'æ–‡ä»¶åç§°',
+  `size` int(11) NOT NULL DEFAULT '0' COMMENT 'æ–‡ä»¶å¤§å°ï¼ˆå­—èŠ‚ï¼‰',
+  `type` varchar(100) NOT NULL DEFAULT '' COMMENT 'MIMEç±»å‹',
+  `path` varchar(100) NOT NULL DEFAULT '' COMMENT 'ä¿å­˜è·¯å¾„',
+  `is_netdisk` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦æ¥æºäºç½‘ç›˜',
+  `unique_id` varchar(36) DEFAULT NULL COMMENT 'ç”¨æˆ·å”¯ä¸€ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'åˆ›å»ºæ—¶é—´',
   PRIMARY KEY (`file_id`),
   KEY `idx_create_time` (`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='¸½¼şĞÅÏ¢±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='é™„ä»¶ä¿¡æ¯è¡¨';
 
 
 CREATE TABLE `td_attach_post` (
-  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Í¼¶ÈID',
-  `post_id` varchar(36) NOT NULL DEFAULT '' COMMENT '»Ø¸´ID',
-  `file_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÎÄ¼şID',
+  `tudu_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'å›¾åº¦ID',
+  `post_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'å›å¤ID',
+  `file_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ–‡ä»¶ID',
   `is_attach` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`tudu_id`,`post_id`,`file_id`),
   KEY `idx_file_id` (`file_id`),
   KEY `idx_tudu_id` (`tudu_id`),
   CONSTRAINT `fk_attach_of_which_post` FOREIGN KEY (`tudu_id`, `post_id`) REFERENCES `td_post` (`tudu_id`, `post_id`),
   CONSTRAINT `fk_post_has_which_attach` FOREIGN KEY (`file_id`) REFERENCES `td_attachment` (`file_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `td_attach_flow` (
-  `flow_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Á÷³ÌID',
-  `file_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÎÄ¼şID',
-  `is_attach` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'ÊÇ·ñ¸½¼ş',
+  `flow_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æµç¨‹ID',
+  `file_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ–‡ä»¶ID',
+  `is_attach` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'æ˜¯å¦é™„ä»¶',
   PRIMARY KEY (`flow_id`,`file_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='¹¤×÷Á÷ÄÚÈİ¸½¼ş¹ØÁª±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å·¥ä½œæµå†…å®¹é™„ä»¶å…³è”è¡¨';
 
 
 CREATE TABLE `td_flow` (
-  `flow_id` varchar(36) NOT NULL DEFAULT '' COMMENT '¹¤×÷Á÷ID',
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ËùÊô°æ¿éID',
-  `class_id` varchar(36) DEFAULT NULL COMMENT 'ÌâÖ÷·ÖÀàID',
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT '´´½¨ÈËÎ¨Ò»ID',
-  `subject` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '¹¤×÷Á÷Ãû³Æ',
-  `description` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'ÃèÊö',
-  `avaliable` text NOT NULL COMMENT '¿ÉÓÃÈËÈº£¬¸ñÊ½ userid@orgid\\ngroupid',
-  `is_valid` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'ÊÇ·ñ¿ÉÓÃ',
-  `cc` text CHARACTER SET utf8 NOT NULL COMMENT '³­ËÍÈË£¬¸ñÊ½Í¬ td_tudu.cc',
-  `elapsed_time` int(11) DEFAULT NULL COMMENT 'ËùĞèÊ±¼ä(Ô¤¼ÆºÄÊ±)',
-  `content` text CHARACTER SET utf8 COMMENT 'ÄÚÈİÄ£°å',
-  `steps` text CHARACTER SET utf8 NOT NULL COMMENT 'Á÷³Ì£¬XML¸ñÊ½ÎÄ±¾',
-  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '´´½¨Ê±¼ä',
+  `flow_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'å·¥ä½œæµID',
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `board_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ‰€å±ç‰ˆå—ID',
+  `class_id` varchar(36) DEFAULT NULL COMMENT 'é¢˜ä¸»åˆ†ç±»ID',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'åˆ›å»ºäººå”¯ä¸€ID',
+  `subject` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'å·¥ä½œæµåç§°',
+  `description` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'æè¿°',
+  `avaliable` text NOT NULL COMMENT 'å¯ç”¨äººç¾¤ï¼Œæ ¼å¼ userid@orgid\\ngroupid',
+  `is_valid` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'æ˜¯å¦å¯ç”¨',
+  `cc` text CHARACTER SET utf8 NOT NULL COMMENT 'æŠ„é€äººï¼Œæ ¼å¼åŒ td_tudu.cc',
+  `elapsed_time` int(11) DEFAULT NULL COMMENT 'æ‰€éœ€æ—¶é—´(é¢„è®¡è€—æ—¶)',
+  `content` text CHARACTER SET utf8 COMMENT 'å†…å®¹æ¨¡æ¿',
+  `steps` text CHARACTER SET utf8 NOT NULL COMMENT 'æµç¨‹ï¼ŒXMLæ ¼å¼æ–‡æœ¬',
+  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'åˆ›å»ºæ—¶é—´',
   PRIMARY KEY (`flow_id`),
   KEY `idx_org_id_board_id` (`org_id`,`board_id`),
   KEY `idx_is_valid` (`is_valid`),
   KEY `idx_create_time` (`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='¹¤×÷Á÷¶¨Òå±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å·¥ä½œæµå®šä¹‰è¡¨';
 
 
 CREATE TABLE `td_flow_favor` (
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÓÃ»§Î¨Ò»ID',
-  `flow_id` varchar(36) NOT NULL DEFAULT '' COMMENT '¹¤×÷Á÷ID',
-  `weight` int(11) NOT NULL DEFAULT '0' COMMENT 'È¨ÖØ',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '¸üĞÂÊ±¼ä',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç”¨æˆ·å”¯ä¸€ID',
+  `flow_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'å·¥ä½œæµID',
+  `weight` int(11) NOT NULL DEFAULT '0' COMMENT 'æƒé‡',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'æ›´æ–°æ—¶é—´',
   PRIMARY KEY (`unique_id`,`flow_id`),
   KEY `idx_weight_update_time` (`weight`,`update_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='³£ÓÃ¹¤×÷Á÷';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å¸¸ç”¨å·¥ä½œæµ';
 
 
 CREATE TABLE `td_rule` (
   `rule_id` varchar(36) NOT NULL DEFAULT '',
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÓÃ»§Î¨Ò»ID',
-  `description` varchar(200) CHARACTER SET utf8 DEFAULT NULL COMMENT 'ÃèÊö£¬³ÌĞòÉú³É',
-  `operation` enum('ignore','starred','label','delete') NOT NULL DEFAULT 'ignore' COMMENT 'Ö´ĞĞ²Ù×÷',
-  `mail_remind` text COMMENT 'ÓÊ¼şÌáĞÑÉèÖÃ',
-  `value` varchar(100) DEFAULT '' COMMENT 'Ö´ĞĞ²Ù×÷µÄÖµ',
-  `is_valid` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'ÊÇ·ñ¿ÉÓÃ',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç”¨æˆ·å”¯ä¸€ID',
+  `description` varchar(200) CHARACTER SET utf8 DEFAULT NULL COMMENT 'æè¿°ï¼Œç¨‹åºç”Ÿæˆ',
+  `operation` enum('ignore','starred','label','delete') NOT NULL DEFAULT 'ignore' COMMENT 'æ‰§è¡Œæ“ä½œ',
+  `mail_remind` text COMMENT 'é‚®ä»¶æé†’è®¾ç½®',
+  `value` varchar(100) DEFAULT '' COMMENT 'æ‰§è¡Œæ“ä½œçš„å€¼',
+  `is_valid` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'æ˜¯å¦å¯ç”¨',
   PRIMARY KEY (`rule_id`),
   KEY `idx_unique_id` (`unique_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Í¼¶È¹æÔò';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å›¾åº¦è§„åˆ™';
 
 
 CREATE TABLE `td_rule_filter` (
   `filter_id` varchar(36) NOT NULL DEFAULT '',
-  `rule_id` varchar(36) NOT NULL DEFAULT '' COMMENT '¹æÔòID',
-  `what` enum('from','to','cc','subject') NOT NULL DEFAULT 'from' COMMENT 'Æ¥Åä¶ÔÏó',
-  `type` enum('contain','exclusive','match') NOT NULL DEFAULT 'contain' COMMENT 'Æ¥Åä·½Ê½, °üº¬£¬²»°üº¬£¬ÍêÈ«Æ¥Åä',
-  `value` text CHARACTER SET utf8 COMMENT '¹ıÂËÄÚÈİ',
-  `is_valid` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñ¿ÉÓÃ',
+  `rule_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'è§„åˆ™ID',
+  `what` enum('from','to','cc','subject') NOT NULL DEFAULT 'from' COMMENT 'åŒ¹é…å¯¹è±¡',
+  `type` enum('contain','exclusive','match') NOT NULL DEFAULT 'contain' COMMENT 'åŒ¹é…æ–¹å¼, åŒ…å«ï¼Œä¸åŒ…å«ï¼Œå®Œå…¨åŒ¹é…',
+  `value` text CHARACTER SET utf8 COMMENT 'è¿‡æ»¤å†…å®¹',
+  `is_valid` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦å¯ç”¨',
   PRIMARY KEY (`filter_id`),
   KEY `idx_rule_id` (`rule_id`),
   CONSTRAINT `fk_filter_of_which_rule` FOREIGN KEY (`rule_id`) REFERENCES `td_rule` (`rule_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Í¼¶È¹æÔò¹ıÂËÌõ¼ş';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å›¾åº¦è§„åˆ™è¿‡æ»¤æ¡ä»¶';
 
 
 CREATE TABLE `nd_file` (
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ËùÓĞÕßÎ¨Ò»ID',
-  `file_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÎÄ¼şID',
-  `folder_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Ä¿Â¼ID',
-  `file_name` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'ÎÄ¼şÃû',
-  `size` int(11) NOT NULL DEFAULT '0' COMMENT 'ÎÄ¼ş´óĞ¡',
-  `type` varchar(100) NOT NULL DEFAULT '' COMMENT 'MIMEÀàĞÍ',
-  `path` varchar(255) NOT NULL DEFAULT '' COMMENT 'Â·¾¶',
-  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '´´½¨Ê±¼ä',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'ÎÄ¼ş×´Ì¬ 1.Õı³£ 2.É¾³ı',
-  `attach_file_id` varchar(36) DEFAULT NULL COMMENT '¸½¼şID',
-  `is_from_attach` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñ±£´æ×Ô¸½¼ş',
-  `from_unique_id` varchar(36) DEFAULT NULL COMMENT '±£´æ×ÔÓÃ»§(Èç¹ûÓĞ)',
-  `from_file_id` varchar(36) DEFAULT NULL COMMENT 'Ô´ÎÄ¼şID',
-  `is_share` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñ¹²Ïí',
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ‰€æœ‰è€…å”¯ä¸€ID',
+  `file_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ–‡ä»¶ID',
+  `folder_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç›®å½•ID',
+  `file_name` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'æ–‡ä»¶å',
+  `size` int(11) NOT NULL DEFAULT '0' COMMENT 'æ–‡ä»¶å¤§å°',
+  `type` varchar(100) NOT NULL DEFAULT '' COMMENT 'MIMEç±»å‹',
+  `path` varchar(255) NOT NULL DEFAULT '' COMMENT 'è·¯å¾„',
+  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT 'åˆ›å»ºæ—¶é—´',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'æ–‡ä»¶çŠ¶æ€ 1.æ­£å¸¸ 2.åˆ é™¤',
+  `attach_file_id` varchar(36) DEFAULT NULL COMMENT 'é™„ä»¶ID',
+  `is_from_attach` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦ä¿å­˜è‡ªé™„ä»¶',
+  `from_unique_id` varchar(36) DEFAULT NULL COMMENT 'ä¿å­˜è‡ªç”¨æˆ·(å¦‚æœæœ‰)',
+  `from_file_id` varchar(36) DEFAULT NULL COMMENT 'æºæ–‡ä»¶ID',
+  `is_share` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦å…±äº«',
   PRIMARY KEY (`org_id`,`unique_id`,`file_id`),
   KEY `idx_folder_id` (`folder_id`),
   KEY `idx_file_name` (`file_name`),
   KEY `idx_create_time` (`create_time`),
   KEY `idx_is_from_attach` (`is_from_attach`),
   KEY `idx_file_id` (`file_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='ÍøÅÌÎÄ¼ş';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç½‘ç›˜æ–‡ä»¶';
 
 
 CREATE TABLE `nd_folder` (
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ËùÊôÕâÎ¨Ò»ID',
-  `folder_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'Ä¿Â¼ID',
-  `parent_folder_id` varchar(36) DEFAULT NULL COMMENT '¸¸Ä¿Â¼ID',
-  `folder_name` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'Ãû³Æ',
-  `is_system` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÏµÍ³Ä¿Â¼',
-  `is_share` tinyint(3) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñ¹²Ïí',
-  `folder_size` int(11) NOT NULL DEFAULT '0' COMMENT 'ÎÄ¼ş×Ü´óĞ¡',
-  `max_quota` int(11) NOT NULL DEFAULT '0' COMMENT '¿ÉÓÃ¿Õ¼ä£¨Õë¶Ô¸ùÄ¿Â¼ÉèÖÃ£©',
-  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '´´½¨Ê±¼ä',
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ‰€å±è¿™å”¯ä¸€ID',
+  `folder_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç›®å½•ID',
+  `parent_folder_id` varchar(36) DEFAULT NULL COMMENT 'çˆ¶ç›®å½•ID',
+  `folder_name` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'åç§°',
+  `is_system` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦ç³»ç»Ÿç›®å½•',
+  `is_share` tinyint(3) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦å…±äº«',
+  `folder_size` int(11) NOT NULL DEFAULT '0' COMMENT 'æ–‡ä»¶æ€»å¤§å°',
+  `max_quota` int(11) NOT NULL DEFAULT '0' COMMENT 'å¯ç”¨ç©ºé—´ï¼ˆé’ˆå¯¹æ ¹ç›®å½•è®¾ç½®ï¼‰',
+  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT 'åˆ›å»ºæ—¶é—´',
   PRIMARY KEY (`unique_id`,`folder_id`),
   KEY `idx_folder_name` (`folder_name`),
   KEY `idx_is_system` (`is_system`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='ÍøÅÌÄ¿Â¼';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç½‘ç›˜ç›®å½•';
 
 
 CREATE TABLE `nd_share` (
-  `object_id` varchar(36) NOT NULL DEFAULT '' COMMENT '¹²ÏíÎÄ¼şID',
-  `owner_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ËùÊôÓÃ»§Î¨Ò»ID',
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `target_id` varchar(36) NOT NULL DEFAULT '' COMMENT '½ÓÊÜÓÃ»§ID£¬ÓÃ»§emailµØÖ·£¬Èº×éÊ¹ÓÃÈº×éID',
-  `object_type` enum('folder','file') NOT NULL DEFAULT 'file' COMMENT '¹²Ïí¶ÔÏóÀàĞÍ',
-  `owner_info` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'ËùÓĞÕßĞÅÏ¢ email\\ntruename',
+  `object_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'å…±äº«æ–‡ä»¶ID',
+  `owner_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ‰€å±ç”¨æˆ·å”¯ä¸€ID',
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `target_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ¥å—ç”¨æˆ·IDï¼Œç”¨æˆ·emailåœ°å€ï¼Œç¾¤ç»„ä½¿ç”¨ç¾¤ç»„ID',
+  `object_type` enum('folder','file') NOT NULL DEFAULT 'file' COMMENT 'å…±äº«å¯¹è±¡ç±»å‹',
+  `owner_info` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'æ‰€æœ‰è€…ä¿¡æ¯ email\\ntruename',
   PRIMARY KEY (`object_id`,`owner_id`,`target_id`),
   KEY `idx_object_id_object_type` (`object_type`,`object_id`),
   KEY `idx_owner_id` (`owner_id`),
   KEY `idx_org_id_target_id` (`target_id`,`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='¹²ÏíÎÄ¼ş¹ØÏµ±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å…±äº«æ–‡ä»¶å…³ç³»è¡¨';
 
 
 CREATE TABLE `sph_index_label` (
   `index_id` varchar(255) NOT NULL DEFAULT '',
   `max_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`index_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `td_log` (
-  `log_time` int(10) NOT NULL DEFAULT '0' COMMENT 'ÈÕÖ¾Ê±¼ä',
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `target_type` enum('tudu','board','post','cycle','vote') NOT NULL DEFAULT 'tudu' COMMENT '²Ù×÷¶ÔÏóÀàĞÍ',
-  `target_id` varchar(60) NOT NULL DEFAULT '' COMMENT '²Ù×÷¶ÔÏóID',
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT '²Ù×÷ÈËÎ¨Ò»ID,^system:ÏµÍ³²Ù×÷',
-  `operator` varchar(150) CHARACTER SET utf8 DEFAULT '' COMMENT '²Ù×÷ÈËĞÅÏ¢ [email ĞÕÃû]',
-  `privacy` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0.¹«¿ª 1.²»¹«¿ª',
-  `action` varchar(50) DEFAULT '' COMMENT '²Ù×÷ÀàĞÍ',
-  `detail` text CHARACTER SET utf8 COMMENT '²Ù×÷ÏêÏ¸',
+  `log_time` int(10) NOT NULL DEFAULT '0' COMMENT 'æ—¥å¿—æ—¶é—´',
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `target_type` enum('tudu','board','post','cycle','vote') NOT NULL DEFAULT 'tudu' COMMENT 'æ“ä½œå¯¹è±¡ç±»å‹',
+  `target_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'æ“ä½œå¯¹è±¡ID',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'æ“ä½œäººå”¯ä¸€ID,^system:ç³»ç»Ÿæ“ä½œ',
+  `operator` varchar(150) CHARACTER SET utf8 DEFAULT '' COMMENT 'æ“ä½œäººä¿¡æ¯ [email å§“å]',
+  `privacy` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0.å…¬å¼€ 1.ä¸å…¬å¼€',
+  `action` varchar(50) DEFAULT '' COMMENT 'æ“ä½œç±»å‹',
+  `detail` text CHARACTER SET utf8 COMMENT 'æ“ä½œè¯¦ç»†',
   KEY `idx_object_id` (`org_id`,`target_type`,`target_id`),
   KEY `idx_unique_id` (`unique_id`),
   KEY `idx_privacy` (`privacy`),
   KEY `idx_action` (`action`(1)),
   KEY `idx_log_time` (`log_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `td_note` (
-  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT '×éÖ¯ID',
-  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ÓÃ»§Î¨Ò»ID',
-  `note_id` varchar(36) NOT NULL DEFAULT '' COMMENT '±ãÇ©ID',
-  `tudu_id` varchar(36) DEFAULT '' COMMENT '¹ØÁªµÄÍ¼¶ÈID',
-  `content` text CHARACTER SET utf8 NOT NULL COMMENT 'ÄÚÈİ',
-  `color` int(11) NOT NULL DEFAULT '0' COMMENT 'ÑÕÉ«£¬ÕûĞÍ´æ´¢',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '×´Ì¬ 1.Õı³£ 2.É¾³ı',
-  `is_notify` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ÊÇ·ñÌáĞÑ',
-  `notify_type` tinyint(3) NOT NULL DEFAULT '0' COMMENT 'ÌáĞÑÀàĞÍ',
-  `notify_value` tinyint(11) NOT NULL DEFAULT '0' COMMENT 'ÌáĞÑÀàĞÍ¶ÔÓ¦µÄÈ¡Öµ',
-  `notify_time` varchar(10) DEFAULT NULL COMMENT 'ÌáĞÑÊ±¼ä',
-  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '´´½¨Ê±¼ä',
-  `update_time` int(11) DEFAULT NULL COMMENT '¸üĞÂÊ±¼ä',
+  `org_id` varchar(60) NOT NULL DEFAULT '' COMMENT 'ç»„ç»‡ID',
+  `unique_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ç”¨æˆ·å”¯ä¸€ID',
+  `note_id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ä¾¿ç­¾ID',
+  `tudu_id` varchar(36) DEFAULT '' COMMENT 'å…³è”çš„å›¾åº¦ID',
+  `content` text CHARACTER SET utf8 NOT NULL COMMENT 'å†…å®¹',
+  `color` int(11) NOT NULL DEFAULT '0' COMMENT 'é¢œè‰²ï¼Œæ•´å‹å­˜å‚¨',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'çŠ¶æ€ 1.æ­£å¸¸ 2.åˆ é™¤',
+  `is_notify` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'æ˜¯å¦æé†’',
+  `notify_type` tinyint(3) NOT NULL DEFAULT '0' COMMENT 'æé†’ç±»å‹',
+  `notify_value` tinyint(11) NOT NULL DEFAULT '0' COMMENT 'æé†’ç±»å‹å¯¹åº”çš„å–å€¼',
+  `notify_time` varchar(10) DEFAULT NULL COMMENT 'æé†’æ—¶é—´',
+  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT 'åˆ›å»ºæ—¶é—´',
+  `update_time` int(11) DEFAULT NULL COMMENT 'æ›´æ–°æ—¶é—´',
   PRIMARY KEY (`unique_id`,`note_id`),
   KEY `idx_org_id` (`org_id`),
   KEY `idx_update_time` (`update_time`),
   KEY `idx_status` (`status`),
   KEY `idx_create_time` (`create_time`),
   KEY `idx_tudu_id` (`tudu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='±ãÇ©';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ä¾¿ç­¾';
 
 
 
 -- Table "td_tudu_flow" DDL
 
 CREATE TABLE `td_tudu_flow` (
-  `org_id` varchar(60) NOT NULL COMMENT '×éÖ¯ID',
-  `tudu_id` varchar(36) NOT NULL COMMENT 'Í¼¶ÈID',
-  `flow_id` varchar(36) NOT NULL COMMENT '¹¤×÷Á÷Ä£°æID',
-  `steps` text CHARACTER SET utf8 NOT NULL COMMENT '²½ÖèÊı¾İ xml¸ñÊ½',
-  `step_num` int(11) NOT NULL DEFAULT '0' COMMENT '²½ÖèÊı',
-  `current_step_id` varchar(36) NOT NULL COMMENT 'µ±Ç°²½Öè±êÊ¶',
+  `org_id` varchar(60) NOT NULL COMMENT 'ç»„ç»‡ID',
+  `tudu_id` varchar(36) NOT NULL COMMENT 'å›¾åº¦ID',
+  `flow_id` varchar(36) NOT NULL COMMENT 'å·¥ä½œæµæ¨¡ç‰ˆID',
+  `steps` text CHARACTER SET utf8 NOT NULL COMMENT 'æ­¥éª¤æ•°æ® xmlæ ¼å¼',
+  `step_num` int(11) NOT NULL DEFAULT '0' COMMENT 'æ­¥éª¤æ•°',
+  `current_step_id` varchar(36) NOT NULL COMMENT 'å½“å‰æ­¥éª¤æ ‡è¯†',
   PRIMARY KEY (`tudu_id`),
   KEY `org_id` (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='¹²ÏíÎÄ¼ş¹ØÏµ±í';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å…±äº«æ–‡ä»¶å…³ç³»è¡¨';
