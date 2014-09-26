@@ -17,8 +17,7 @@ div,p{ margin:0; padding:0;}
 .wrap{ margin:0 10px; text-align:left;}
 .btn{ line-height:1em; height:20px;*padding-top:2px;}
 .border_b{
-	padding:10px 0; 
-	border-bottom:1px solid #000
+	padding:10px 0;
 }
 .border_b .post_content{text-indent:24px;}
 .option_percent_bar{
