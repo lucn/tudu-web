@@ -303,6 +303,9 @@ class Model_Tudu_Extension_Flow extends Model_Tudu_Extension_Abstract
                 }
             }
 
+            if (empty($sectionUsers)) {
+                $sectionUsers = array_merge($sectionUsers, array(array($u)));
+            }
             $step['section'] = array_merge($step['section'], $sectionUsers);
         }
 
@@ -1112,7 +1115,9 @@ class Model_Tudu_Extension_Flow extends Model_Tudu_Extension_Abstract
 
             $sec[] = array('uniqueid' => $user['uniqueid'], 'username' => $user['email'], 'truename' => $user['truename'], 'deptid' => $user['deptid']);
         }
-        $ret[] = $sec;
+        if (!empty($sec)) {
+            $ret[] = $sec;
+        }
 
         // 递归上级
         if ($isDeep) {
