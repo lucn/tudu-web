@@ -139,8 +139,12 @@ class Model_App_Attend_Tudu_Handler_Apply extends Model_Tudu_Extension_Handler_A
                             $start = (int) $branch['start'];
                             $end = (int) $branch['end'];
                             if ($day >= $start && $day <= $end) {
-                                foreach ($branch['sections'] as $section) {
-                                    $flow->addStepSection($stepId, $section);
+                                if (is_array($branch['sections'])) {
+                                    foreach ($branch['sections'] as $section) {
+                                        $flow->addStepSection($stepId, $section);
+                                    }
+                                } else {
+                                    $flow->addStepSection($stepId, $branch['sections'], $tudu);
                                 }
                             }
                         }
