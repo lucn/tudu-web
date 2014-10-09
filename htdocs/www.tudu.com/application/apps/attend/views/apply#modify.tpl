@@ -187,7 +187,7 @@ if (top == this) {
                     <table id="row-total" cellspacing="0" cellpadding="0"{{if $apply.categoryid == '^checkin'}} style="display:none"{{/if}}>
                       <tr>
                         <td class="info_txt">共计</td>
-                        <td class="info_forms"><input disabled type="text" id="period" name="period" value="{{$apply.period}}" style="width: 40px;ime-mode:disabled" class="input_text"{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />&nbsp;{{$LANG.hour}}&nbsp;<span id="time-sum"></span>&nbsp;<span id="type-sum"></span>
+                        <td class="info_forms"><input readonly="readonly" type="text" id="period" name="period" value="{{$apply.period}}" style="width: 40px;ime-mode:disabled" class="input_text"{{if $disabled}} disabled="disabled" _disabled="disabled"{{/if}} />&nbsp;{{$LANG.hour}}&nbsp;<span id="time-sum"></span>&nbsp;<span id="type-sum"></span>
                         </td>
                       </tr>
                     </table>
