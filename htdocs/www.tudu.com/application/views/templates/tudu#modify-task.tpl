@@ -297,7 +297,7 @@ if (top == this) {
 	            	{{strip}}
 	                <div class="setting_box option_box">
 	                    <label for="urgent" title="{{$LANG.task_priority_tips}}"{{if ($isforward && !$access.modify) || $isdivide || $isreview}} class="gray"{{/if}}><input name="priority" type="checkbox" value="1" id="urgent"{{if $tudu.priority}} checked="checked"{{/if}}{{if ($isforward && !$access.modify) || $isdivide || $isreview}} disabled="disabled" _disabled="true"{{/if}} />{{$LANG.urgent}}</label>
-                        <label for="secrecy" title="{{$LANG.task_secrecy_tips}}"{{if ($isforward && !$access.modify) || $isdivide || $isreview}} class="gray"{{/if}}><input name="privacy" type="checkbox" value="1" id="secrecy"{{if $tudu.privacy}} checked="checked"{{/if}}{{if ($isforward && !$access.modify) || $isdivide || $isreview}} disabled="disabled" _disabled="true"{{/if}} />{{$LANG.private}}</label>
+                        <label for="secrecy" title="{{$LANG.task_secrecy_tips}}"{{if ($isforward && !$access.modify) || $isdivide || $isreview}} class="gray"{{/if}}><input name="privacy" type="checkbox" value="1" id="secrecy" checked {{if $tudu.privacy}} checked="checked"{{/if}}{{if ($isforward && !$access.modify) || $isdivide || $isreview}} disabled="disabled" _disabled="true"{{/if}} />{{$LANG.private}}</label>
 						<label for="cycle" title="{{$LANG.task_cycle_tips}}"{{if $isforward || $isdivide || $isreview}} class="gray"{{/if}}><input name="cycle" type="checkbox" value="1" id="cycle"{{if $cycle}} checked="checked"{{/if}}{{if $isforward || $isdivide || $isreview}} disabled="disabled" _disabled="true"{{/if}} />{{$LANG.repeat_cycle}}</label>
 						<label for="isauth" title="{{$LANG.auth_tips}}"{{if ($isforward && !$access.modify) || $isdivide || $isreview}} class="gray"{{/if}}><input type="checkbox" name="isauth" value="1" id="isauth"{{if $tudu.isauth}} checked="checked"{{/if}}{{if ($isforward && !$access.modify) || $isdivide}} disabled="disabled" _disabled="true"{{/if}} />{{$LANG.foreign_auth}}</label>
 						<label for="needconfirm" title="{{$LANG.tudu_need_confirm_tips}}"{{if ($isforward && !$access.modify) || $isdivide || $isreview}} class="gray"{{/if}}><input type="checkbox" name="needconfirm" value="1" id="needconfirm"{{if $tudu.needconfirm || (!$tudu.tuduid && $board && $board.needconfirm)}} checked="checked"{{/if}}{{if ($isforward && !$access.modify) || $isdivide || $isreview}} disabled="disabled" _disabled="true"{{/if}} />{{$LANG.tudu_need_confirm}}</label>
@@ -310,12 +310,12 @@ if (top == this) {
 			 </table>
 	     </div>
 
-		 <div class="info_box" id="extend-box"{{if ($isforward && !$access.modify) || $isdivide || $isreview || $isapply ||(!$tudu.privacy && !$cycle && !$tuduremind && !$tudu.notifyall)}} style="display:none"{{/if}}>
+		 <div class="info_box" id="extend-box"{{if ($isforward && !$access.modify) || $isdivide || $isreview || $isapply ||(!$tudu.privacy && !$cycle && !$tuduremind && !$tudu.notifyall)}}{{/if}}>
 		 	<table cellspacing="0" cellpadding="0">
               <tr>
                 <td class="info_txt"></td>
                 <td class="info_forms">
-                	<div class="cycle_wrap" id="block-privacy"{{if ($isforward && !$access.modify) || $isdivide || $isreview || $isapply || !$tudu.privacy}} style="display:none"{{/if}}>
+                	<div class="cycle_wrap" id="block-privacy"{{if ($isforward && !$access.modify) || $isdivide || $isreview || $isapply || !$tudu.privacy}}{{/if}}>
                         <div class="content_box3">
                             <strong>{{$LANG.private_work}}</strong>
                             <div class="line_bold"></div>
@@ -870,6 +870,8 @@ claimUsers.push({tuduid: '{{$item.tuduid}}', email: '{{$item.email}}', truename:
 Modify.claimUsers = claimUsers;
 {{/if}}
 </script>
-
+<script>
+$('#secrecy').unbind('click').click(function (){return false;});
+</script>
 </body>
 </html>
